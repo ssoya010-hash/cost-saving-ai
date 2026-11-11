@@ -76,7 +76,7 @@
       </svg>
     </div>
   </div>
-  <div class="foot"><span class="src">Illustrative: cap and cost per task vary by person. Tasks = cap ÷ cost per task; savings from slide 14.</span><span>3</span></div>
+  <div class="foot"><span class="src">Illustrative: cap and cost per task vary by person. Tasks = cap ÷ cost per task; savings from slide 19.</span><span>3</span></div>
   <aside class="note">[왜 하는가] 지금 AI 사용은 분기별 한도가 있고, 사람마다 대략 200~1000달러 수준입니다. 한도를 다 쓰면 다음 분기까지 AI 작업이 멈춥니다. 그래서 목표는 덜 쓰는 것이 아니라 같은 돈으로 더 많이 끝내는 것입니다. 작업당 비용을 17% 줄이면 같은 한도로 20% 더 많은 작업을 할 수 있습니다. 그래프 숫자는 예시입니다.</aside>
 </section>
 
@@ -133,7 +133,7 @@
     <div class="card"><span class="pill info">Channel</span><h3>[#channel-name]</h3><p>[One line: e.g. Claude Code / agent harness help]</p></div>
     <div class="card top-good"><span class="pill good">EE tool</span><h3>[EE AI harness coach]</h3><p>[One line: what the EE coach does and where to get it]</p></div>
     <div class="card"><span class="pill warn">Tips</span><h3>[Tips page / wiki]</h3><p>[One line: curated prompts, rules, AGENTS.md examples]</p></div>
-    <div class="card top-save"><span class="pill info">This work</span><h3>cost-saving-ai</h3><p>Research, cost-coach and a playground for cost tools. Links on slide 15.</p></div>
+    <div class="card top-save"><span class="pill info">This work</span><h3>cost-saving-ai</h3><p>Research, cost-coach and a playground for cost tools. Links on slide 20.</p></div>
   </div>
   <div class="foot"><span class="src">Placeholders: fill from community/CHANNELS.md in the playground repo before presenting.</span><span>5</span></div>
   <aside class="note">[사내 활동] 이미 여러 팀이 AI를 잘 쓰기 위한 활동을 하고 있습니다. 채널들, EE에서 만든 AI 하네스 코치 도구, 팁 모음이 있습니다. 오늘 이야기는 이것들을 대체하는 게 아니라 비용 관점에서 하나를 더 보태는 것입니다. (발표 전 채널명과 도구명 채우기: community/CHANNELS.md)</aside>
@@ -192,6 +192,112 @@
   <aside class="note">[핵심 앵커 슬라이드] 오늘 발표의 지도입니다. AI를 쓰는 흐름은 프롬프트, 에이전트 턴, 도구 호출, 모델과 캐시, 출력의 다섯 단계이고, 출력이 끝나면 전체 컨텍스트를 다시 보내며 반복합니다. 각 도구가 어느 단계에 붙는지와 실제 청구액 변화를 색으로 표시했습니다. 초록은 줄어든 것, 주황은 상황에 따라, 빨강은 오히려 늘어날 수 있는 것입니다. 행동을 바꾸는 도구는 초록, 텍스트를 압축하는 도구는 주황이나 빨강이라는 점을 기억해 주세요.</aside>
 </section>
 
+<section class="slide cat" data-title="Tool catalog A">
+  <style>.cat ul.clean li{font-size:14.5px;line-height:1.3;padding-left:14px}.cat ul.clean li::before{width:7px;top:.6em}</style>
+  <p class="eyebrow">Tool catalog · GitHub, stars, pros &amp; cons</p>
+  <h2 style="font-size:38px">Tools that change what the agent does (and one that did not)</h2>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;flex:1">
+    <div class="card top-good" style="gap:6px;padding:16px 20px">
+      <div class="row" style="justify-content:space-between;align-items:baseline;gap:10px"><h3 style="font-size:21px">TokenEconomizer <span class="tag">★ 5.6K · plugin</span></h3><span class="pill good">pilot first</span></div>
+      <span class="mono" style="font-size:13px;color:var(--accent)">github.com/microsoft/TokenEconomizer</span>
+      <p style="font-size:15.5px;line-height:1.35"><b>What:</b> Controller that learns repo facts, prunes unused tools, stops failure loops.</p>
+      <div class="row" style="gap:14px">
+        <div class="col grow" style="gap:2px"><span class="tag" style="color:var(--good)">PROS</span><ul class="clean" style="gap:2px"><li>−18 to −31% billed cost, 579 tasks</li><li>Pass@1 up in 4 of 5 setups</li><li>No proxy, no telemetry</li></ul></div>
+        <div class="col grow" style="gap:2px"><span class="tag" style="color:var(--cost)">CONS</span><ul class="clean" style="gap:2px"><li>Authors’ own paper, 1 month old</li><li>First ~5 tasks per repo cost more</li><li>Not usable in Devin cloud</li></ul></div>
+      </div>
+    </div><div class="card top-good" style="gap:6px;padding:16px 20px">
+      <div class="row" style="justify-content:space-between;align-items:baseline;gap:10px"><h3 style="font-size:21px">Ponytail <span class="tag">★ 188K · skill</span></h3><span class="pill good">use as rule</span></div>
+      <span class="mono" style="font-size:13px;color:var(--accent)">github.com/DietrichGebert/ponytail</span>
+      <p style="font-size:15.5px;line-height:1.35"><b>What:</b> “Laziest senior dev”: smallest change, reuse, no speculative code.</p>
+      <div class="row" style="gap:14px">
+        <div class="col grow" style="gap:2px"><span class="tag" style="color:var(--good)">PROS</span><ul class="clean" style="gap:2px"><li>−10.3% cost, p=0.004 (JetBrains)</li><li>Works anywhere as a text rule</li><li>Pass rate held</li></ul></div>
+        <div class="col grow" style="gap:2px"><span class="tag" style="color:var(--cost)">CONS</span><ul class="clean" style="gap:2px"><li>More missed tests/docs (27 vs 17)</li><li>Ours n=1: +29 / +6 / −6%</li><li>Trojan clone on a marketplace</li></ul></div>
+      </div>
+    </div><div class="card top-warn" style="gap:6px;padding:16px 20px">
+      <div class="row" style="justify-content:space-between;align-items:baseline;gap:10px"><h3 style="font-size:21px">codegraph <span class="tag">★ 77K · MCP</span></h3><span class="pill warn">large repos</span></div>
+      <span class="mono" style="font-size:13px;color:var(--accent)">github.com/colbymchenry/codegraph</span>
+      <p style="font-size:15.5px;line-height:1.35"><b>What:</b> Pre-built code graph; one query instead of grep → read → read.</p>
+      <div class="row" style="gap:14px">
+        <div class="col grow" style="gap:2px"><span class="tag" style="color:var(--good)">PROS</span><ul class="clean" style="gap:2px"><li>−16% cost on large repos</li><li>File reads −76%</li><li>Works in Devin via MCP</li></ul></div>
+        <div class="col grow" style="gap:2px"><span class="tag" style="color:var(--cost)">CONS</span><ul class="clean" style="gap:2px"><li>Ours +5 / +28 / +7% on a small repo</li><li>Agents often bypass it</li><li>Telemetry on; auto-allow perms</li></ul></div>
+      </div>
+    </div><div class="card top-cost" style="gap:6px;padding:16px 20px">
+      <div class="row" style="justify-content:space-between;align-items:baseline;gap:10px"><h3 style="font-size:21px">serena <span class="tag">★ 31K · MCP</span></h3><span class="pill bad">avoid for cost</span></div>
+      <span class="mono" style="font-size:13px;color:var(--accent)">github.com/oraios/serena</span>
+      <p style="font-size:15.5px;line-height:1.35"><b>What:</b> LSP-based symbol search and editing tools.</p>
+      <div class="row" style="gap:14px">
+        <div class="col grow" style="gap:2px"><span class="tag" style="color:var(--good)">PROS</span><ul class="clean" style="gap:2px"><li>Precise symbol-level navigation</li><li>Many languages via LSP</li><li>Liked by power users</li></ul></div>
+        <div class="col grow" style="gap:2px"><span class="tag" style="color:var(--cost)">CONS</span><ul class="clean" style="gap:2px"><li>Raised pooled cost (MS paper)</li><li>~24K tokens of tool schema</li><li>Past critical RCE (patched)</li></ul></div>
+      </div>
+    </div>
+  </div>
+  <div class="foot"><span class="src">Stars: GitHub API 2026-11-11. Billed-cost figures: our v2 re-test + JetBrains, Quesma, Codepointer, MS paper. Full survey: research/tool-survey.md</span><span>7</span></div>
+  <aside class="note">[도구 카탈로그 A] 각 도구의 GitHub 주소, 별 수, 무엇인지, 장단점입니다. 위의 세 개는 에이전트의 행동을 바꾸는 도구로, TokenEconomizer는 실패 루프와 불필요한 도구를 정리하고, Ponytail은 코드를 덜 쓰게 하고, codegraph는 탐색을 줄입니다. serena도 같은 계열이지만 마이크로소프트 논문에서 오히려 비용을 늘린 유일한 도구였습니다.</aside>
+</section>
+
+<section class="slide cat" data-title="Tool catalog B">
+  <style>.cat ul.clean li{font-size:14.5px;line-height:1.3;padding-left:14px}.cat ul.clean li::before{width:7px;top:.6em}</style>
+  <p class="eyebrow">Tool catalog · GitHub, stars, pros &amp; cons</p>
+  <h2 style="font-size:38px">Tools that compress text: very popular, no billed saving</h2>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;flex:1">
+    <div class="card top-cost" style="gap:6px;padding:16px 20px">
+      <div class="row" style="justify-content:space-between;align-items:baseline;gap:10px"><h3 style="font-size:21px">rtk <span class="tag">★ 86K · hook</span></h3><span class="pill bad">not a cost tool</span></div>
+      <span class="mono" style="font-size:13px;color:var(--accent)">github.com/rtk-ai/rtk</span>
+      <p style="font-size:15.5px;line-height:1.35"><b>What:</b> Rewrites shell commands (git, ls, find) and filters their output.</p>
+      <div class="row" style="gap:14px">
+        <div class="col grow" style="gap:2px"><span class="tag" style="color:var(--good)">PROS</span><ul class="clean" style="gap:2px"><li>git log output −58–94%</li><li><10 ms, single binary</li><li>Telemetry now opt-in</li></ul></div>
+        <div class="col grow" style="gap:2px"><span class="tag" style="color:var(--cost)">CONS</span><ul class="clean" style="gap:2px"><li>Billed −5 to +9% (ours), +7.6% (JetBrains)</li><li>Lossy output → retries, Pass@1 −1–2 pt</li><li>Bash only, not Read/Grep</li></ul></div>
+      </div>
+    </div><div class="card top-cost" style="gap:6px;padding:16px 20px">
+      <div class="row" style="justify-content:space-between;align-items:baseline;gap:10px"><h3 style="font-size:21px">headroom <span class="tag">★ 79K · proxy</span></h3><span class="pill bad">avoid</span></div>
+      <span class="mono" style="font-size:13px;color:var(--accent)">github.com/headroomlabs-ai/headroom</span>
+      <p style="font-size:15.5px;line-height:1.35"><b>What:</b> Local proxy that compresses JSON, logs and code in every request.</p>
+      <div class="row" style="gap:14px">
+        <div class="col grow" style="gap:2px"><span class="tag" style="color:var(--good)">PROS</span><ul class="clean" style="gap:2px"><li>Strong on JSON/RAG API apps</li><li>Accuracy suite holds</li><li>Cache mode is now default</li></ul></div>
+        <div class="col grow" style="gap:2px"><span class="tag" style="color:var(--cost)">CONS</span><ul class="clean" style="gap:2px"><li>Billed ±2% (cache), +61% (token mode)</li><li>Sees API keys + prompts; keys in cleartext</li><li>Cannot sit in front of Devin</li></ul></div>
+      </div>
+    </div><div class="card top-cost" style="gap:6px;padding:16px 20px">
+      <div class="row" style="justify-content:space-between;align-items:baseline;gap:10px"><h3 style="font-size:21px">caveman <span class="tag">★ 119K · skill + proxy</span></h3><span class="pill bad">costs more</span></div>
+      <span class="mono" style="font-size:13px;color:var(--accent)">github.com/JuliusBrussee/caveman</span>
+      <p style="font-size:15.5px;line-height:1.35"><b>What:</b> Terse answer style; v4 adds compression proxy and cloud router.</p>
+      <div class="row" style="gap:14px">
+        <div class="col grow" style="gap:2px"><span class="tag" style="color:var(--good)">PROS</span><ul class="clean" style="gap:2px"><li>Shorter, easier answers</li><li>Quality unchanged (p=0.82)</li><li>Skill part runs anywhere</li></ul></div>
+        <div class="col grow" style="gap:2px"><span class="tag" style="color:var(--cost)">CONS</span><ul class="clean" style="gap:2px"><li>Ours +46 / −1 / +63%</li><li>Re-fetches compressed text 11–14×</li><li>Telemetry on; Auto sends prompts</li></ul></div>
+      </div>
+    </div><div class="card " style="gap:6px;padding:16px 20px">
+      <div class="row" style="justify-content:space-between;align-items:baseline;gap:10px"><h3 style="font-size:21px">context-mode <span class="tag">★ 34K · MCP + hooks</span></h3><span class="pill info">unproven</span></div>
+      <span class="mono" style="font-size:13px;color:var(--accent)">github.com/mksglu/context-mode</span>
+      <p style="font-size:15.5px;line-height:1.35"><b>What:</b> Keeps big tool output in a local sandbox; the agent searches it.</p>
+      <div class="row" style="gap:14px">
+        <div class="col grow" style="gap:2px"><span class="tag" style="color:var(--good)">PROS</span><ul class="clean" style="gap:2px"><li>93–99% fewer output bytes per call</li><li>Local, zero telemetry (plugin)</li><li>HN-popular</li></ul></div>
+        <div class="col grow" style="gap:2px"><span class="tag" style="color:var(--cost)">CONS</span><ul class="clean" style="gap:2px"><li>No billed-cost evidence</li><li>Hook conflicts, hangs reported</li><li>ELv2 (source-available)</li></ul></div>
+      </div>
+    </div>
+  </div>
+  <div class="foot"><span class="src">Stars: GitHub API 2026-11-11. Billed-cost figures: our v2 re-test + JetBrains, Quesma, Codepointer, MS paper. Full survey: research/tool-survey.md</span><span>8</span></div>
+  <aside class="note">[도구 카탈로그 B] 텍스트를 압축하는 도구들입니다. 별은 가장 많지만 저희 재검증과 외부 연구 모두에서 청구액을 줄이지 못했습니다. 각 카드의 장점은 사실입니다. 다만 장점이 토큰 압축률이고, 단점이 청구액과 품질이라는 점을 봐 주세요.</aside>
+</section>
+
+<!-- ============================================================ 7. TOOL ANATOMY -->
+<section class="slide" data-title="Tool anatomy">
+  <p class="eyebrow">Tool anatomy · what each tool is made of</p>
+  <h2>Each tool is a hook, a skill, an MCP server or a proxy. That decides what it can change and where it runs.</h2>
+  <table class="t" style="font-size:15px">
+    <tr><th style="width:12%">Tool</th><th style="width:22%">Parts (how it plugs in)</th><th style="width:20%">What it changes</th><th style="width:17%">Data &amp; security</th><th>Claude Code</th><th>Devin CLI</th><th>Devin cloud</th></tr>
+    <tr><td><b>cost-coach</b></td><td>4 hooks + background worker + launchd retro</td><td>Nothing for the AI; Mac alerts to you</td><td>Local only</td><td><span class="pill good">yes</span></td><td><span class="pill good">yes</span></td><td><span class="pill bad">no</span> log ACU</td></tr>
+    <tr><td><b>TokenEconomizer</b></td><td>Claude Code plugin: hooks, learned repo facts, tool deny rules, loop judge (<span class="mono">claude -p</span>)</td><td>Which tools exist, failure loops, repeated discovery</td><td>No telemetry; writes settings.local.json</td><td><span class="pill good">yes</span></td><td><span class="pill info">unverified</span></td><td><span class="pill bad">no</span></td></tr>
+    <tr><td><b>Ponytail</b></td><td>Skill (SKILL.md) + hook</td><td>How much code the agent writes</td><td>Trojan clone seen; official repo only</td><td><span class="pill good">yes</span></td><td><span class="pill good">yes</span></td><td><span class="pill good">yes</span> as rule</td></tr>
+    <tr><td><b>codegraph</b></td><td>MCP server + local index + CLAUDE.md block + prompt hook</td><td>How the agent searches code</td><td>Telemetry on; auto-allow permissions</td><td><span class="pill good">yes</span></td><td><span class="pill good">yes</span></td><td><span class="pill good">yes</span> MCP</td></tr>
+    <tr><td><b>rtk</b></td><td>Rust binary + PreToolUse hook rewriting shell commands</td><td>Shell output size (lossy)</td><td>3 CVEs (fixed); BUSL engine</td><td><span class="pill good">yes</span></td><td><span class="pill good">yes</span></td><td><span class="pill warn">partly</span> hooks best-effort</td></tr>
+    <tr><td><b>headroom</b></td><td>Local HTTP proxy in front of the API (+ MCP)</td><td>Rewrites every request to the model</td><td><b>Sees API keys + prompts</b>; telemetry on</td><td><span class="pill warn">partly</span> risky</td><td><span class="pill bad">no</span></td><td><span class="pill bad">no</span></td></tr>
+    <tr><td><b>caveman</b></td><td>Style skill + compression proxy + recovery MCP + cloud router</td><td>Answer style; compresses tool output</td><td>Telemetry on; Auto sends prompts to cloud</td><td><span class="pill good">yes</span></td><td><span class="pill warn">partly</span> skill only</td><td><span class="pill warn">partly</span> skill only</td></tr>
+    <tr><td><b>context-mode</b></td><td>MCP + hooks + local SQLite sandbox</td><td>Keeps big tool output out of context</td><td>ELv2 license; hook conflicts</td><td><span class="pill good">yes</span></td><td><span class="pill warn">partly</span></td><td><span class="pill warn">partly</span> MCP</td></tr>
+  </table>
+  <div class="callout" style="font-size:20px">Hooks and proxies only work where the agent runs on your Mac. Devin cloud accepts text (AGENTS.md, skills) and MCP.</div>
+  <div class="foot"><span class="src">Sources: each repo’s README / installer, docs.devin.ai (plugins, hooks), security check 2026-11-11 (research/tool-survey.md).</span><span>9</span></div>
+  <aside class="note">[도구 해부] 도구마다 어떤 부품으로 이뤄졌는지 보여드립니다. 훅, 스킬, MCP 서버, 프록시 네 가지 형태가 있고, 이 형태가 무엇을 바꿀 수 있는지와 어디서 돌 수 있는지를 결정합니다. 훅과 프록시는 내 Mac에서 에이전트가 돌 때만 동작하고, Devin 클라우드에는 AGENTS.md 같은 텍스트와 MCP만 들어갑니다.</aside>
+</section>
+
 <!-- ============================================================ 7. FIRST PRINCIPLES -->
 <section class="slide" data-title="What the bill is">
   <p class="eyebrow">First principles · what the bill is made of</p>
@@ -214,8 +320,73 @@
     <div class="card grow"><span class="tag">ATOM 4</span><h3>Output</h3><p>Reasoning + code at 5×. Prose is a small part; less code is the lever.</p></div>
   </div>
   <div class="callout">Five whys, root cause: tools optimise tokens per payload; the bill is driven by calls × new context, rebuilds and output.</div>
-  <div class="foot"><span class="src">Claude pricing: write 1.25× (5 min) / 2× (1 h), read 0.1×, output 5× input. Devin CLI: 0.4 ACU per 1M input tokens, also cached.</span><span>7</span></div>
+  <div class="foot"><span class="src">Claude pricing: write 1.25× (5 min) / 2× (1 h), read 0.1×, output 5× input. Devin CLI: 0.4 ACU per 1M input tokens, also cached.</span><span>10</span></div>
   <aside class="note">[1원리] 청구액을 쪼개 보면 72%가 캐시에 새 컨텍스트를 쓰는 비용입니다. 이미 캐시된 옛 컨텍스트는 0.1배라 거의 공짜입니다. 그래서 청구액을 움직이는 원자는 네 가지입니다: 호출 수, 새로 읽는 컨텍스트, 캐시 재작성, 출력. 특히 캐시 재작성은 제 Mac에서만 한 주에 185달러 중 66달러였습니다. 5 Whys로 내려가면 근본 원인은, 도구는 응답당 토큰을 줄이는데 청구액은 행동이 결정한다는 것입니다.</aside>
+</section>
+
+<!-- ============================================================ ARCHITECTURE -->
+<section class="slide" data-title="Architecture">
+  <p class="eyebrow">Architecture · why a tool works in one and not the other</p>
+  <h2>Where the agent and the model call run decides what we can plug in. That is why headroom cannot help Devin.</h2>
+  <svg viewBox="0 0 1440 560" width="100%" role="img" aria-label="Claude Code runs on your Mac and calls the model through AWS; Devin runs on Cognition's cloud and calls the model through Cognition's gateway">
+    <defs><marker id="ar2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0,0 L10,5 L0,10z" fill="var(--ink-3)"/></marker></defs>
+    <!-- Claude Code lane -->
+    <text x="0" y="28" class="ink" font-size="20" font-weight="700">Claude Code (AWS)</text>
+    <rect x="0" y="44" width="760" height="200" rx="14" fill="var(--accent-bg)" stroke="var(--accent)" stroke-dasharray="6 5"/>
+    <text x="16" y="70" class="m" font-size="14" fill="var(--accent)">YOUR MAC: you control everything here</text>
+    <rect x="24" y="96" width="190" height="120" rx="10" fill="var(--ink)"/><text x="119" y="150" text-anchor="middle" fill="var(--paper)" font-size="19" font-weight="650">Claude Code</text><text x="119" y="176" text-anchor="middle" fill="var(--paper)" font-size="14">agent loop</text>
+    <rect x="250" y="88" width="230" height="40" rx="8" fill="var(--good-bg)" stroke="var(--good)"/><text x="365" y="114" text-anchor="middle" font-size="15" class="ink">hooks · skills · MCP ✓</text>
+    <rect x="250" y="140" width="230" height="40" rx="8" fill="var(--good-bg)" stroke="var(--good)"/><text x="365" y="166" text-anchor="middle" font-size="15" class="ink">cost-coach · TokenEconomizer ✓</text>
+    <rect x="530" y="96" width="200" height="120" rx="10" fill="var(--cost-bg)" stroke="var(--cost)"/><text x="630" y="140" text-anchor="middle" font-size="17" font-weight="650" class="ink">headroom proxy</text><text x="630" y="164" text-anchor="middle" font-size="14">localhost:8787</text><text x="630" y="188" text-anchor="middle" font-size="14">rewrites requests</text>
+    <line x1="214" y1="200" x2="526" y2="200" stroke="var(--ink-3)" stroke-width="2.5" marker-end="url(#ar2)"/>
+    <text x="370" y="232" text-anchor="middle" font-size="13" class="m ink3">ANTHROPIC_BASE_URL → proxy</text>
+    <rect x="1000" y="96" width="420" height="120" rx="10" fill="var(--ink)"/><text x="1210" y="146" text-anchor="middle" fill="var(--paper)" font-size="19" font-weight="650">AWS (Bedrock) · Claude model</text><text x="1210" y="174" text-anchor="middle" fill="var(--paper)" font-size="14">prompt cache · billed per token</text>
+    <line x1="730" y1="156" x2="996" y2="156" stroke="var(--ink-3)" stroke-width="2.5" marker-end="url(#ar2)"/>
+    <text x="865" y="144" text-anchor="middle" font-size="13" class="m ink3">model call leaves your Mac</text>
+    <!-- Devin lane -->
+    <text x="0" y="300" class="ink" font-size="20" font-weight="700">Devin (ACU)</text>
+    <rect x="0" y="316" width="430" height="220" rx="14" fill="var(--accent-bg)" stroke="var(--accent)" stroke-dasharray="6 5"/>
+    <text x="16" y="342" class="m" font-size="14" fill="var(--accent)">YOUR MAC</text>
+    <rect x="24" y="360" width="180" height="70" rx="10" fill="var(--ink)"/><text x="114" y="401" text-anchor="middle" fill="var(--paper)" font-size="17" font-weight="650">Devin CLI</text>
+    <rect x="24" y="448" width="180" height="70" rx="10" fill="var(--sheet)" stroke="var(--ink-3)"/><text x="114" y="478" text-anchor="middle" font-size="15" class="ink">browser / Slack</text><text x="114" y="500" text-anchor="middle" font-size="13">(cloud sessions)</text>
+    <rect x="220" y="372" width="196" height="44" rx="8" fill="var(--good-bg)" stroke="var(--good)"/><text x="318" y="399" text-anchor="middle" font-size="14" class="ink">hooks · skills · MCP ✓</text>
+    <rect x="530" y="316" width="890" height="220" rx="14" fill="var(--sheet)" stroke="var(--ink-3)" stroke-dasharray="6 5"/>
+    <text x="546" y="342" class="m ink3" font-size="14">COGNITION CLOUD: we cannot install a proxy here</text>
+    <rect x="560" y="372" width="250" height="140" rx="10" fill="var(--ink)"/><text x="685" y="420" text-anchor="middle" fill="var(--paper)" font-size="17" font-weight="650">Devin cloud agent</text><text x="685" y="446" text-anchor="middle" fill="var(--paper)" font-size="14">runs in a VM</text><text x="685" y="472" text-anchor="middle" fill="var(--paper)" font-size="13">AGENTS.md · skills · MCP ✓</text>
+    <rect x="880" y="372" width="240" height="140" rx="10" fill="var(--ink)"/><text x="1000" y="426" text-anchor="middle" fill="var(--paper)" font-size="17" font-weight="650">Cognition gateway</text><text x="1000" y="452" text-anchor="middle" fill="var(--paper)" font-size="14">routes + meters ACU</text>
+    <rect x="1180" y="372" width="220" height="140" rx="10" fill="var(--ink)"/><text x="1290" y="430" text-anchor="middle" fill="var(--paper)" font-size="17" font-weight="650">Model</text><text x="1290" y="456" text-anchor="middle" fill="var(--paper)" font-size="14">Opus 4.6</text>
+    <path d="M204 395 C 400 280, 760 300, 876 400" fill="none" stroke="var(--ink-3)" stroke-width="2.5" marker-end="url(#ar2)"/>
+    <line x1="204" y1="483" x2="556" y2="483" stroke="var(--ink-3)" stroke-width="2.5" marker-end="url(#ar2)"/>
+    <line x1="810" y1="442" x2="876" y2="442" stroke="var(--ink-3)" stroke-width="2.5" marker-end="url(#ar2)"/>
+    <line x1="1120" y1="442" x2="1176" y2="442" stroke="var(--ink-3)" stroke-width="2.5" marker-end="url(#ar2)"/>
+    <text x="560" y="300" font-size="14" class="m" fill="var(--cost)">✗ no place for headroom: model calls go Devin → Cognition gateway, never through your Mac</text>
+  </svg>
+  <div class="row" style="gap:18px">
+    <div class="card grow"><h3>Proxies (headroom, caveman proxy)</h3><p>Need the agent to send model calls through <span class="mono">localhost</span>. Only Claude Code does; Devin calls its own gateway.</p></div>
+    <div class="card grow"><h3>Hooks &amp; plugins (cost-coach, rtk, TokenEconomizer)</h3><p>Need the agent process on your Mac: Claude Code and Devin CLI. Devin cloud: best-effort plugin hooks only.</p></div>
+    <div class="card grow"><h3>Text &amp; MCP (rules, skills, codegraph)</h3><p>Work everywhere, including Devin cloud, because they travel with the repo.</p></div>
+  </div>
+  <div class="foot"><span class="src">docs.devin.ai: cli hooks, product-guides/plugins, billing/usage · Claude Code on Amazon Bedrock docs.</span><span>11</span></div>
+  <aside class="note">[구조 차이] Claude Code는 에이전트가 내 Mac에서 돌고, 모델 호출이 내 Mac을 거쳐 AWS로 나갑니다. 그래서 그 사이에 headroom 같은 프록시를 끼울 수 있습니다. Devin은 CLI든 클라우드든 모델 호출이 Cognition 게이트웨이를 통해 나가고, 클라우드 세션은 에이전트 자체가 Cognition VM에서 돕니다. 그래서 프록시를 끼울 자리가 없고, headroom은 Devin에 적용할 수 없습니다. 훅은 에이전트가 내 Mac에 있을 때만, 텍스트 규칙과 MCP는 저장소와 함께 따라가니 어디서나 됩니다.</aside>
+</section>
+
+<!-- ============================================================ 9. CLAUDE VS DEVIN -->
+<section class="slide" data-title="Claude Code vs Devin">
+  <p class="eyebrow">Claude Code vs Devin · same habits, different meters</p>
+  <h2>Claude bills tokens; Devin bills ACU. Devin cloud also bills VM time and only accepts text and MCP.</h2>
+  <table class="t" style="font-size:16px">
+    <tr><th style="width:17%"></th><th style="width:28%">Claude Code (AWS)</th><th style="width:27%">Devin CLI</th><th>Devin cloud</th></tr>
+    <tr><td><b>Runs on</b></td><td>Your Mac</td><td>Your Mac</td><td>Cognition’s VM</td></tr>
+    <tr><td><b>Billing unit</b></td><td>Tokens, usage-based via AWS</td><td>ACU converted from tokens (Opus 4.6: 0.4 ACU per 1M input)</td><td>ACU = tokens + compute + VM time</td></tr>
+    <tr><td><b>Price</b></td><td>Opus 4.6 list $5 in / $25 out per MTok; cache read 0.1×, write 1.25–2×</td><td>$0.40 per ACU (contract to 2027)</td><td>$0.40 per ACU</td></tr>
+    <tr><td><b>Prompt cache</b></td><td>Yes; 5-min lifetime by default (1 h optional)</td><td>Yes; separate read/write prices, lifetime not documented</td><td>Managed by Cognition</td></tr>
+    <tr><td><b>What we can plug in</b></td><td>Hooks, skills, MCP, plugins, proxies</td><td>Hooks (also reads .claude/settings.json), skills, MCP</td><td>AGENTS.md (≤16 KiB), skills, MCP, plugins; no proxy</td></tr>
+    <tr><td><b>How to measure</b></td><td>Local transcripts → <span class="mono">cost-coach status</span></td><td><span class="mono">/session-stats</span> → <span class="mono">cost-coach devin add</span></td><td>Session Insights, consumption API</td></tr>
+    <tr><td><b>Biggest levers</b></td><td>Cache habits, smallest change, TokenEconomizer, codegraph on big repos</td><td>Same habits, cost-discipline skill, codegraph</td><td>Fast mode off (4× ACU), fewer back-and-forths, AGENTS.md rules, ACU budgets</td></tr>
+    <tr><td><b>Expected saving</b></td><td><span class="pill info">≈ −17%</span></td><td><span class="pill info">≈ −10%</span></td><td><span class="pill info">≈ −8%</span></td></tr>
+  </table>
+  <div class="foot"><span class="src">docs.devin.ai (billing/usage, desktop/accounts/usage, cli hooks, plugins), Claude Code Bedrock docs. Expected savings are projections (slide 19).</span><span>12</span></div>
+  <aside class="note">[Claude Code vs Devin] 같은 습관이 통하지만 계량기가 다릅니다. Claude는 토큰으로, Devin은 ACU로 과금합니다. Devin CLI는 토큰이 그대로 ACU로 환산되니 Claude와 거의 같고, Devin 클라우드는 VM 시간까지 섞이고 텍스트와 MCP만 넣을 수 있어서 절감 폭이 작습니다. 대신 fast 모드 끄기 같은 Devin 자체 설정이 가장 큰 레버입니다.</aside>
 </section>
 
 <!-- ============================================================ 8. COMPARISON -->
@@ -227,7 +398,7 @@
     <span class="tag">◇ advertised (vendor)</span><span class="tag" style="color:var(--save)">● measured saving</span><span class="tag" style="color:var(--cost)">● measured cost increase</span>
     <span class="tag">line = range across independent studies and our runs</span>
   </div>
-  <div class="foot"><span class="src">JetBrains, Quesma, Codepointer, MS TokenEconomizer paper, codegraph #1393, our v1 + v2 A/B (Sonnet 5.5). Ponytail “ours” = n=1 per scenario.</span><span>8</span></div>
+  <div class="foot"><span class="src">JetBrains, Quesma, Codepointer, MS TokenEconomizer paper, codegraph #1393, our v1 + v2 A/B (Sonnet 5.5). Ponytail “ours” = n=1 per scenario.</span><span>13</span></div>
   <aside class="note">[비교 분석] 다이아몬드는 각 도구가 광고하는 절감률이고, 점은 독립 연구와 저희 측정에서 나온 실제 청구액 변화입니다. 위의 세 개는 행동을 바꾸는 도구로 대부분 왼쪽, 즉 절감 쪽에 있습니다. 아래 세 개는 압축 도구로, 광고는 60~90%인데 실제 점은 0 근처이거나 오른쪽, 즉 비용 증가 쪽에 있습니다. headroom 예전 모드는 캐시를 깨서 61%, caveman 최신 버전은 긴 세션에서 63%까지 늘었습니다. 점에는 저희 최신 버전 재검증 결과도 포함돼 있고, 다음 장에서 자세히 보여드리겠습니다.</aside>
 </section>
 
@@ -254,7 +425,7 @@
       <div class="card"><h3>Every number is checkable</h3><p>Billed $ matches Claude Code’s own reported cost in all 72 sessions. <span class="mono" style="font-size:15px">experiments/2026-11-tool-ab-v2/data/all_sessions.csv</span></p></div>
     </div>
   </div>
-  <div class="foot"><span class="src">Claude Code 2.1.322, claude-sonnet-5-5, 2026-11-11 · spend $24.48 (v2) + $2.12 (Ponytail) · experiments/2026-11-tool-ab-v2/analysis.md</span><span>9</span></div>
+  <div class="foot"><span class="src">Claude Code 2.1.322, claude-sonnet-5-5, 2026-11-11 · spend $24.48 (v2) + $2.12 (Ponytail) · experiments/2026-11-tool-ab-v2/analysis.md</span><span>14</span></div>
   <aside class="note">[우리 재검증] 앞의 차트는 여러 출처를 모은 것이고, 이 장은 저희가 직접 다시 잰 결과입니다. 1차 측정에 대해 "도구 버전이 옛날 것 아니냐, 시나리오가 도구에 불리했던 것 아니냐"는 지적이 있어서, 최신 버전으로, 각 도구에 유리하게 설계한 시나리오 3개를 3번씩, 총 54세션을 다시 돌렸습니다. 판단 기준은 실행 전에 정했습니다. 중앙값이 10% 이상 싸고, 모든 회차가 base의 최악보다 싸고, 품질이 같아야 절감으로 인정합니다. 결과는 어떤 압축 도구도 기준을 통과하지 못했고, caveman은 긴 세션에서 63% 비쌌습니다. 도구는 실제로 작동했습니다. rtk는 81개 명령 중 46개를 바꿨고 headroom은 170개 요청 중 152개를 압축했습니다. 그런데도 청구액은 그대로였습니다. 그리고 한 번만 돌리면 속는다는 점도 중요합니다. 첫 회차만 보면 네 개 도구가 11~28% 절감처럼 보였는데, 3회차까지 하니 사라졌습니다. Ponytail은 1회만 측정해서 아직 판단 보류입니다. 모든 세션의 청구액은 Claude Code가 직접 보고한 비용과 일치하고, CSV로 누구나 확인할 수 있습니다.</aside>
 </section>
 
@@ -288,7 +459,7 @@
       <span class="kpi" style="font-size:40px;margin-top:auto;color:var(--warn)">+28 → −16%</span>
     </div>
   </div>
-  <div class="foot"><span class="src">Ranges = billed cost, pessimistic → optimistic. arXiv 2610.22732; JetBrains AI blog; narration-studio #3032; codegraph #1393.</span><span>10</span></div>
+  <div class="foot"><span class="src">Ranges = billed cost, pessimistic → optimistic. arXiv 2610.22732; JetBrains AI blog; narration-studio #3032; codegraph #1393.</span><span>15</span></div>
   <aside class="note">[딥다이브 A] 실제 절감이 확인된 세 도구입니다. 공통점은 텍스트가 아니라 에이전트의 행동을 줄인다는 것입니다. TokenEconomizer는 실패 루프와 안 쓰는 도구를 정리하고, Ponytail은 코드를 덜 쓰게 하고, codegraph는 파일 탐색 횟수를 줄입니다. 각각 한계도 분명합니다. TokenEconomizer는 개발자 논문뿐이고 Devin에서는 못 쓰고, Ponytail은 테스트와 문서 누락이 늘었고, codegraph는 짧은 질문에서는 오히려 비쌉니다.</aside>
 </section>
 
@@ -323,7 +494,7 @@
     </div>
   </div>
   <div class="callout">The tools were active (rtk rewrote 46 commands, headroom compressed 152 of 170 requests). They shrink what is already cheap, or add turns.</div>
-  <div class="foot"><span class="src">Also checked: context-mode 34K★ (no billed-cost data, ELv2), serena (raised pooled cost in MS paper), graphify (7.3× vs 71.5× claimed).</span><span>11</span></div>
+  <div class="foot"><span class="src">Also checked: context-mode 34K★ (no billed-cost data, ELv2), serena (raised pooled cost in MS paper), graphify (7.3× vs 71.5× claimed).</span><span>16</span></div>
   <aside class="note">[딥다이브 B] 별이 가장 많은 압축 도구들입니다. headroom은 프록시로 예전 대화를 다시 써서 캐시를 깨뜨렸고, 저희 측정에서 61% 비싸졌습니다. rtk는 JetBrains에서 7.6% 비싸졌고, Quesma 1,740회 실험에서 정답률이 1~2점 떨어졌습니다. caveman은 읽기는 편해지지만 출력의 3분의 2인 추론과 코드는 못 줄입니다. 이유는 이미 싼 것을 줄이거나, 기록을 다시 써서 캐시를 깨기 때문입니다.</aside>
 </section>
 
@@ -342,7 +513,7 @@
     <tr><td><b>Lowest risk</b></td><td>AGENTS.md rules, cost-coach (local, stdlib), ccusage --offline</td><td><span class="pill good">Low</span></td></tr>
   </table>
   <div class="callout" style="font-size:20px">Policy we propose: no proxy in front of company code · telemetry off · official repos at pinned versions.</div>
-  <div class="foot"><span class="src">Checked 2026-11-11: each repo’s README, SECURITY.md, TELEMETRY.md and GitHub security advisories.</span><span>12</span></div>
+  <div class="foot"><span class="src">Checked 2026-11-11: each repo’s README, SECURITY.md, TELEMETRY.md and GitHub security advisories.</span><span>17</span></div>
   <aside class="note">[한계와 보안] 도구를 깔기 전에 꼭 보셔야 할 표입니다. 가장 큰 위험은 프록시입니다. API 키와 코드 전체를 봅니다. 과거에 심각한 취약점이 있었던 도구, 악성 복제본이 돈 도구도 있습니다. 그래서 제안하는 정책은 세 가지입니다: 회사 코드 앞에 프록시 금지, 텔레메트리 끄기, 공식 저장소의 고정 버전만 사용.</aside>
 </section>
 
@@ -359,7 +530,7 @@
     <div class="card"><span class="tag">CALLS</span><h3>Stop loops early</h3><p>After 2 corrections or 3 failed tries, restate the requirement or restart.</p></div>
   </div>
   <div class="callout">The cheapest wins are things we stop doing. cost-coach reminds you at exactly these moments.</div>
-  <div class="foot"><span class="src">Each habit maps to one bill atom from slide 7. Ready-to-use rule block: skills/cost-discipline/SKILL.md.</span><span>13</span></div>
+  <div class="foot"><span class="src">Each habit maps to one bill atom from slide 10. Ready-to-use rule block: skills/cost-discipline/SKILL.md.</span><span>18</span></div>
   <aside class="note">[결론과 지향 패턴] 결론은 도구보다 습관입니다. 여섯 가지 습관이 각각 청구액의 원자 하나씩을 줄입니다. 쉬고 나서 큰 세션을 이어가지 말고 새 세션으로, 세션 중에 설정 파일 바꾸지 않기, ok만 보내지 말고 다음 지시까지 한 번에, 필요한 파일만 읽게 하기, 가장 작은 변경부터, 그리고 루프는 일찍 끊기. 설치 없이 오늘부터 할 수 있고, cost-coach가 바로 이 순간들에 알려줍니다.</aside>
 </section>
 
@@ -393,7 +564,7 @@
     <div class="card grow"><h3 style="color:#F3F6F9">Devin levers</h3><p>No fast mode (4× ACU) · fewer back-and-forths · AGENTS.md rules · codegraph MCP. No proxy, no TokenEconomizer.</p></div>
     <div class="card grow"><h3 style="color:#F3F6F9">What it buys</h3><p>On a $600 quarter: −17% = <b>+$123 of work</b>, ≈ 20 more tasks. Prepaid contracts: slower burn, smaller renewal.</p></div>
   </div>
-  <div class="foot"><span class="src">Combined as 1 − Π(1 − lever) × 0.7 overlap. Bar = pessimistic → optimistic; dot = expected. Not yet measured; pilot will verify.</span><span>14</span></div>
+  <div class="foot"><span class="src">Combined as 1 − Π(1 − lever) × 0.7 overlap. Bar = pessimistic → optimistic; dot = expected. Not yet measured; pilot will verify.</span><span>19</span></div>
   <aside class="note">[절감 기대치] 지금까지의 근거로 계산한 예상치입니다. 아직 측정한 결과가 아니라는 점을 분명히 말씀드립니다. Claude는 0에서 31% 사이, 예상 17%. Devin CLI는 예상 10%, Devin 클라우드는 ACU에 VM 비용이 섞여 있어 예상 8%입니다. 분기 600달러 기준이면 17% 절감은 123달러어치, 약 20개 작업을 더 할 수 있다는 뜻입니다. 이 숫자는 다음 파일럿으로 검증하겠습니다.</aside>
 </section>
 
@@ -419,7 +590,7 @@
       <div class="card"><span class="tag">STEP 3 · 1–2 weeks</span><h3>Try one tool, compare, share</h3><p class="mono" style="font-size:17px">cost-coach compare → experiments/ or playground/&lt;tool&gt;/RESULTS.md</p></div>
     </div>
   </div>
-  <div class="foot"><span class="src">Each playground folder: what it does, where it acts in the loop, setup, limits, security notes, results from colleagues.</span><span>15</span></div>
+  <div class="foot"><span class="src">Each playground folder: what it does, where it acts in the loop, setup, limits, security notes, results from colleagues.</span><span>20</span></div>
   <aside class="note">[플레이그라운드] 오늘 내용은 전부 이 저장소에 있습니다. 연구 자료, cost-coach, 그리고 도구마다 폴더가 있어서 써 보고 결과를 남길 수 있습니다. 시작은 3단계입니다. 코치를 설치하고, 일주일 기준선을 재고, 도구 하나를 써 본 뒤 비교 결과를 해당 폴더에 남기는 것입니다. 코치는 AI에 토큰을 하나도 추가하지 않습니다.</aside>
 </section>
 
@@ -453,7 +624,7 @@
       <div class="card"><h3>Adopt</h3><p>What saves ≥10% with no quality loss becomes a GOT default (rules, configs).</p></div>
     </div>
   </div>
-  <div class="foot"><span class="src">Ask: GOT sponsorship for the channel, 3–5 volunteer teams for the first pilot.</span><span>16</span></div>
+  <div class="foot"><span class="src">Ask: GOT sponsorship for the channel, 3–5 volunteer teams for the first pilot.</span><span>21</span></div>
   <aside class="note">[제안] 반응이 좋으면 GOT 레벨에 ai-playground 채널을 만들자고 제안드립니다. 시도하고, 측정하고, 공유하고, 채택하는 플라이휠을 같이 돌리자는 것입니다. 기준은 토큰이 아니라 작업당 청구액이고, 10% 이상 절감되고 품질 손실이 없으면 GOT 기본값으로 채택합니다. 채널 스폰서십과 첫 파일럿에 참여할 3~5개 팀을 부탁드립니다.</aside>
 </section>
 
@@ -470,7 +641,7 @@
     <div class="card grow"><span class="pill info">NEXT · Dec–Jan</span><h3>Pilot</h3><ul class="clean"><li>3–5 teams, 2 weeks baseline + 2 weeks change</li><li>TokenEconomizer + codegraph on big repos</li><li>Devin consumption API export</li><li>Report measured savings</li></ul></div>
     <div class="card grow"><span class="pill info">LATER · Q1</span><h3>Scale</h3><ul class="clean"><li>GOT defaults from what worked</li><li>Team dashboard of $/task</li><li>Feed results into next quarter’s caps</li><li>Re-evaluate tools each quarter</li></ul></div>
   </div>
-  <div class="foot"><span class="src">Decision rule for any change: ≥ 10% billed saving, ≥ 20 sessions per side, no quality loss.</span><span>17</span></div>
+  <div class="foot"><span class="src">Decision rule for any change: ≥ 10% billed saving, ≥ 20 sessions per side, no quality loss.</span><span>22</span></div>
   <aside class="note">[다음 계획과 노스스타] 우리가 향하는 노스스타는 작업당 청구액은 내려가고, 사람당 AI 작업량은 올라가는 것입니다. 단 성공률과 리뷰 품질은 떨어지지 않아야 합니다. 지금은 공유와 자원자 설치, 다음 달부터 3~5개 팀 파일럿으로 실제 절감을 측정하고, 1분기에는 효과가 확인된 것을 GOT 기본값으로 만들고 다음 분기 한도 설정에도 반영하는 것이 목표입니다. 감사합니다.</aside>
 </section>
 
@@ -531,7 +702,7 @@
 <div class="chrome"><div class="bar"></div></div>
 <div class="hud" role="navigation" aria-label="Slide navigation">
   <button id="prev" type="button" aria-label="Previous slide">←</button>
-  <span id="counter">1 / 20</span>
+  <span id="counter">1 / 25</span>
   <button id="next" type="button" aria-label="Next slide">→</button>
   <button id="notesBtn" type="button" aria-label="Toggle speaker notes">Notes (N)</button>
 </div>
