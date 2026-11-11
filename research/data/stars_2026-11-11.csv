@@ -1,0 +1,20 @@
+repo,stars,forks,created,last_push,license,category
+Graphify-Labs/graphify,145570,13937,2026-04-03,2026-11-09,Apache-2.0,code-context
+JuliusBrussee/caveman,118863,6913,2026-04-04,2026-11-09,Apache-2.0,output+input-compress
+rtk-ai/rtk,86101,5514,2026-01-22,2026-11-10,Apache-2.0 + BUSL-1.1,shell-output-compress
+headroomlabs-ai/headroom,79305,6199,2026-01-07,2026-11-10,Apache-2.0,context-compress
+colbymchenry/codegraph,77296,5148,2026-01-18,2026-11-01,MIT,code-context
+BerriAI/litellm,63060,13167,2023-07-27,2026-11-10,NOASSERTION,gateway/routing
+musistudio/claude-code-router,38084,3203,2025-02-25,2026-10-10,MIT,routing
+oraios/serena,31267,2137,2025-03-23,2026-11-09,NOASSERTION,code-context
+ccusage/ccusage,19397,913,2025-05-29,2026-11-10,NOASSERTION,measure
+getagentseal/codeburn,11761,907,2026-04-13,2026-11-09,MIT,measure+guard
+Maciek-roboblog/Claude-Code-Usage-Monitor,8801,462,2025-06-19,2026-07-05,MIT,measure
+microsoft/LLMLingua,6813,451,2023-07-07,2026-11-09,MIT,prompt-compress (API apps)
+drona23/claude-token-efficient,6165,,2026-03-30,2026-06-16,MIT,output-style
+microsoft/TokenEconomizer,5642,351,2026-10-13,2026-11-10,Apache-2.0,session-control
+alexgreensh/token-optimizer,2953,232,2026-02-26,2026-11-09,NOASSERTION,config-audit
+jgravelle/jcodemunch-mcp,2841,,2026-02-09,2026-11-10,NOASSERTION,code-context
+DietrichGebert/ponytail,188327,10467,2026-06-12,2026-10-29,MIT,less-code skill
+DeusData/codebase-memory-mcp,48457,4012,2026-02-24,2026-11-10,MIT,code-context
+mksglu/context-mode,33807,2319,2026-02-23,2026-11-10,source-available,tool-output sandbox

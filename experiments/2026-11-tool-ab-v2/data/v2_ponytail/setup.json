@@ -1,0 +1,35 @@
+{
+ "versions": {
+  "claude": "2.1.322 (Claude Code)",
+  "rtk": "rtk 1.2.0",
+  "codegraph": "1.6.2",
+  "headroom": "headroom, version 0.44.1-dev",
+  "ponytail": "5.3.3",
+  "caveman": "{\n  \"version\": \"4.1.0\",\n  \"binary_release\": \"bin-v4.1.0\"\n}"
+ },
+ "model": "sonnet",
+ "price_per_mtok": {
+  "in": 2.0,
+  "out": 10.0,
+  "w5m": 2.5,
+  "w1h": 4.0,
+  "read": 0.1
+ },
+ "seed": {
+  "upstream": "8c00f710",
+  "s1_culprit": "c1376b42",
+  "s3": {
+   "lines": 4951,
+   "bytes": 1343413,
+   "team_ml_429": 561
+  }
+ },
+ "arms": {
+  "base": {},
+  "ponytail": {
+   "ponytail": true
+  }
+ },
+ "rtk_md": "# Command output\n\nCommand output here is condensed to save tokens, keeping every signal and\ndropping costly noise. Treat it as the complete result: run commands\nnormally, and batch related commands into one call to avoid extra turns.\nTruncated results state their recovery path in their own output. Re-run a\ncommand as `rtk bypass <cmd>` only when its result is unusable: empty when\noutput was clearly expected, contradicting its exit code, or garbled.\n",
+ "codegraph_md": "<!-- CODEGRAPH_START -->\n## CodeGraph\n\nIn repositories indexed by CodeGraph (a `.codegraph/` directory exists at the repo root), reach for it BEFORE grep/find or reading files when you need to understand or locate code:\n\n- **MCP tool** (when available): `codegraph_explore` answers most code questions in one call \u2014 the relevant symbols' verbatim source plus the call paths between them, including dynamic-dispatch hops grep can't follow. Name a file or symbol in the query to read its current line-numbered source. If it's listed but deferred, load it by name via tool search.\n- **Shell** (always works): `codegraph explore \"<symbol names or question>\"` prints the same output.\n\nIf there is no `.codegraph/` directory, skip CodeGraph entirely \u2014 indexing is the user's decision.\n<!-- CODEGRAPH_END -->"
+}
