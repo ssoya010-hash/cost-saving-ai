@@ -1,0 +1,576 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Spend Less, Do More with AI</title>
+<meta name="description" content="AI coding cost saving: what the bill is made of, which tools help, the usage patterns we should adopt, and the playground to try them.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="assets/deck.css">
+</head>
+<body>
+<div class="stage"><div class="deck">
+
+<!-- ============================================================ 1. TITLE -->
+<section class="slide dark" data-title="Title">
+  <p class="eyebrow">AI cost saving · GOT sharing · Nov 2026</p>
+  <div class="col" style="margin-top:auto;gap:26px">
+    <h1 style="font-size:92px;max-width:1300px">Spend less per task.<br>Do more with AI.</h1>
+    <p class="lede" style="max-width:1100px">What our AI bill is really made of, which open-source tools actually lower it,
+      the habits that do, and a playground to try them together.</p>
+  </div>
+  <div class="row" style="margin-top:auto;justify-content:space-between;align-items:flex-end">
+    <p class="mono" style="font-size:18px">Staff Engineer · FCS · from the June 2026 FCS brownbag series</p>
+    <p class="mono" style="font-size:18px">132 graded sessions · Claude Code (AWS) · Devin (ACU)</p>
+  </div>
+  <aside class="note">[인사] 오늘은 AI 비용을 줄여서, 같은 분기 한도 안에서 AI를 더 많이 쓰자는 이야기를 하려고 합니다. 결론부터 다음 장에 한 장으로 보여드리겠습니다.</aside>
+</section>
+
+<!-- ============================================================ 2. TL;DR -->
+<section class="slide" data-title="TL;DR">
+  <p class="eyebrow">TL;DR · if you only see one slide</p>
+  <h2>Cheaper tasks mean more AI within the same quarterly cap. Habits beat compression tools.</h2>
+  <div class="row" style="gap:20px">
+    <div class="card grow top-save"><span class="kpi save">−17%</span><span class="kpi-label"><b>Expected</b> Claude Code saving (range 0 to −31%) from habits + 2 tools</span></div>
+    <div class="card grow top-save"><span class="kpi save">−8%</span><span class="kpi-label"><b>Expected</b> Devin cloud saving (0 to −16%); Devin CLI ≈ −10%</span></div>
+    <div class="card grow top-cost"><span class="kpi cost">72%</span><span class="kpi-label">of our Claude bill is <b>writing new context into the cache</b>, not raw input</span></div>
+    <div class="card grow top-good"><span class="kpi good">0</span><span class="kpi-label">extra tokens from our <b>cost-coach</b>: Mac alerts only, never touches the AI</span></div>
+  </div>
+  <div class="row" style="gap:20px">
+    <div class="card grow"><h3>What we found</h3><p>Popular compressors (rtk 86K★, headroom 79K★, caveman 119K★) cut tokens per payload by 60–99%. In our 54-session re-test with their <b>latest versions</b>, none lowered the billed cost (−5% to +63%).</p></div>
+    <div class="card grow"><h3>What works</h3><p>Changing <b>what the agent does</b>: fewer turns, smaller and stable context, no cache rebuilds, less code. TokenEconomizer, Ponytail rule, codegraph on big repos.</p></div>
+    <div class="card grow"><h3>What we ask</h3><p>Try the <b>playground repo</b>, install cost-coach, and join a GOT-level <b>#ai-playground</b> channel to share results.</p></div>
+  </div>
+  <div class="foot"><span class="src">Savings are projections from independent benchmarks + our 132 graded sessions (experiments/); to be verified in a pilot.</span><span>2</span></div>
+  <aside class="note">[두괄식 요약] 한 장만 보고 가실 분을 위한 요약입니다. 목표는 비용 절감 자체가 아니라, 같은 분기 한도로 AI를 더 많이 쓰는 것입니다. 예상 절감은 Claude 약 17%, Devin 약 8%. 핵심 발견은 별이 많은 압축 도구들이 최신 버전으로 54세션을 다시 재도 실제 청구액을 못 줄이거나 오히려 늘렸다는 것, 그리고 청구액의 72%가 캐시에 새 컨텍스트를 쓰는 비용이라는 것입니다. 마지막으로 플레이그라운드와 채널을 제안드립니다.</aside>
+</section>
+
+<!-- ============================================================ 3. WHY -->
+<section class="slide" data-title="Why it matters">
+  <p class="eyebrow">Why it matters · the quarterly cap</p>
+  <h2>Each of us has a quarterly AI budget. Every dollar saved per task is more work done.</h2>
+  <div class="row" style="gap:48px;align-items:center;flex:1">
+    <div class="col" style="width:520px;gap:18px">
+      <p class="lede">Today usage is capped per quarter, roughly <b>$200–1,000 per person</b> depending on role. When the cap runs out, AI work stops until next quarter.</p>
+      <p>So the goal is not “spend less”. It is <b>more completed tasks per dollar</b>, so the same cap goes further.</p>
+      <div class="callout">−17% cost per task = <span class="mono">+20%</span> more AI work in the same quarter.</div>
+    </div>
+    <div class="grow">
+      <svg viewBox="0 0 860 420" width="100%" role="img" aria-label="Tasks per quarter at different savings levels, illustrative $600 cap">
+        <text x="0" y="22" class="ink" font-size="18" font-weight="600">Tasks per quarter with a $600 cap (illustrative, $6 per task today)</text>
+        <g class="grid"><line x1="190" y1="50" x2="190" y2="380"/><line x1="395" y1="50" x2="395" y2="380" stroke-dasharray="3 4"/><line x1="600" y1="50" x2="600" y2="380" stroke-dasharray="3 4"/></g>
+        <text x="190" y="404" class="m ink3" font-size="14" text-anchor="middle">0</text>
+        <text x="395" y="404" class="m ink3" font-size="14" text-anchor="middle">70</text>
+        <text x="600" y="404" class="m ink3" font-size="14" text-anchor="middle">140</text>
+        <!-- scale: 1 task = 2.93px -->
+        <text x="176" y="92" font-size="17" text-anchor="end">Today</text>
+        <rect x="190" y="70" width="293" height="34" rx="4" fill="var(--ink-3)"/><text x="493" y="93" class="m ink" font-size="17">100</text>
+        <text x="176" y="166" font-size="17" text-anchor="end">−10% (pessimistic)</text>
+        <rect x="190" y="144" width="325" height="34" rx="4" fill="var(--save)" opacity=".55"/><text x="525" y="167" class="m ink" font-size="17">111</text>
+        <text x="176" y="240" font-size="17" text-anchor="end">−17% (expected)</text>
+        <rect x="190" y="218" width="352" height="34" rx="4" fill="var(--save)"/><text x="552" y="241" class="m ink" font-size="17" font-weight="600">120</text>
+        <text x="176" y="314" font-size="17" text-anchor="end">−31% (optimistic)</text>
+        <rect x="190" y="292" width="425" height="34" rx="4" fill="var(--save)" opacity=".8"/><text x="625" y="315" class="m ink" font-size="17">145</text>
+      </svg>
+    </div>
+  </div>
+  <div class="foot"><span class="src">Illustrative: cap and cost per task vary by person. Tasks = cap ÷ cost per task; savings from slide 14.</span><span>3</span></div>
+  <aside class="note">[왜 하는가] 지금 AI 사용은 분기별 한도가 있고, 사람마다 대략 200~1000달러 수준입니다. 한도를 다 쓰면 다음 분기까지 AI 작업이 멈춥니다. 그래서 목표는 덜 쓰는 것이 아니라 같은 돈으로 더 많이 끝내는 것입니다. 작업당 비용을 17% 줄이면 같은 한도로 20% 더 많은 작업을 할 수 있습니다. 그래프 숫자는 예시입니다.</aside>
+</section>
+
+<!-- ============================================================ 4. JOURNEY -->
+<section class="slide" data-title="Our journey">
+  <p class="eyebrow">Our journey · since June 2026</p>
+  <h2>It started as an FCS brownbag and grew into a measured, shareable playbook.</h2>
+  <svg viewBox="0 0 1440 360" width="100%" role="img" aria-label="Timeline from June 2026 brownbag to GOT sharing">
+    <line x1="60" y1="120" x2="1380" y2="120" class="axis" stroke-width="3"/>
+    <g font-size="17">
+      <circle cx="80" cy="120" r="12" fill="var(--ink)"/>
+      <text x="80" y="80" class="m ink" text-anchor="middle" font-weight="600">Jun 2026</text>
+      <text x="80" y="170" class="ink" text-anchor="middle" font-weight="600">FCS brownbag</text>
+      <text x="80" y="196" text-anchor="middle">AI habits &amp; tips</text>
+      <text x="80" y="220" text-anchor="middle">inside FCS</text>
+
+      <circle cx="400" cy="120" r="12" fill="var(--ink)"/>
+      <text x="400" y="80" class="m ink" text-anchor="middle" font-weight="600">Jul–Oct</text>
+      <text x="400" y="170" class="ink" text-anchor="middle" font-weight="600">Cost questions grow</text>
+      <text x="400" y="196" text-anchor="middle">quarterly caps, Devin ACU,</text>
+      <text x="400" y="220" text-anchor="middle">“does rtk/headroom help?”</text>
+
+      <circle cx="720" cy="120" r="12" fill="var(--accent)"/>
+      <text x="720" y="80" class="m ink" text-anchor="middle" font-weight="600">Nov</text>
+      <text x="720" y="170" class="ink" text-anchor="middle" font-weight="600">Research + A/B</text>
+      <text x="720" y="196" text-anchor="middle">16 tools, 6 independent studies,</text>
+      <text x="720" y="220" text-anchor="middle">132 graded billed-cost sessions</text>
+
+      <circle cx="1040" cy="120" r="12" fill="var(--accent)"/>
+      <text x="1040" y="80" class="m ink" text-anchor="middle" font-weight="600">Nov</text>
+      <text x="1040" y="170" class="ink" text-anchor="middle" font-weight="600">cost-coach</text>
+      <text x="1040" y="196" text-anchor="middle">Mac alerts + weekly retro,</text>
+      <text x="1040" y="220" text-anchor="middle">zero cost to the AI</text>
+
+      <circle cx="1360" cy="120" r="16" fill="var(--save)"/>
+      <text x="1360" y="80" class="m ink" text-anchor="end" font-weight="600">Today</text>
+      <text x="1370" y="170" class="ink" text-anchor="end" font-weight="600">GOT sharing</text>
+      <text x="1370" y="196" text-anchor="end">playground repo +</text>
+      <text x="1370" y="220" text-anchor="end">#ai-playground proposal</text>
+    </g>
+  </svg>
+  <div class="callout" style="margin-top:auto">From “tips we heard” to “numbers we measured”: every claim in this deck links to a source or our own run.</div>
+  <div class="foot"><span class="src">Brownbag materials and raw runs: experiments/ in the playground repo.</span><span>4</span></div>
+  <aside class="note">[우리의 여정] 이 작업은 올해 6월 FCS 조직 내부 브라운백에서 시작했습니다. 처음엔 AI 사용 팁 공유였는데, 분기 한도와 Devin ACU 이야기가 나오면서 'rtk나 headroom 같은 도구가 정말 비용을 줄이냐'는 질문이 생겼고, 그걸 직접 측정해 보다가 오늘 GOT 공유까지 오게 됐습니다. 핵심은 들은 팁이 아니라 측정한 숫자라는 점입니다.</aside>
+</section>
+
+<!-- ============================================================ 5. ACTIVITIES -->
+<section class="slide" data-title="Across the company">
+  <p class="eyebrow">Across the company · you are not starting from zero</p>
+  <h2>Many teams are already working on better AI use. Here is where to find them.</h2>
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px">
+    <div class="card"><span class="pill info">Channel</span><h3>[#channel-name]</h3><p>[One line: what is shared here, e.g. AI tips &amp; prompts]</p></div>
+    <div class="card"><span class="pill info">Channel</span><h3>[#channel-name]</h3><p>[One line: e.g. Devin usage &amp; announcements]</p></div>
+    <div class="card"><span class="pill info">Channel</span><h3>[#channel-name]</h3><p>[One line: e.g. Claude Code / agent harness help]</p></div>
+    <div class="card top-good"><span class="pill good">EE tool</span><h3>[EE AI harness coach]</h3><p>[One line: what the EE coach does and where to get it]</p></div>
+    <div class="card"><span class="pill warn">Tips</span><h3>[Tips page / wiki]</h3><p>[One line: curated prompts, rules, AGENTS.md examples]</p></div>
+    <div class="card top-save"><span class="pill info">This work</span><h3>cost-saving-ai</h3><p>Research, cost-coach and a playground for cost tools. Links on slide 15.</p></div>
+  </div>
+  <div class="foot"><span class="src">Placeholders: fill from community/CHANNELS.md in the playground repo before presenting.</span><span>5</span></div>
+  <aside class="note">[사내 활동] 이미 여러 팀이 AI를 잘 쓰기 위한 활동을 하고 있습니다. 채널들, EE에서 만든 AI 하네스 코치 도구, 팁 모음이 있습니다. 오늘 이야기는 이것들을 대체하는 게 아니라 비용 관점에서 하나를 더 보태는 것입니다. (발표 전 채널명과 도구명 채우기: community/CHANNELS.md)</aside>
+</section>
+
+<!-- ============================================================ 6. FLOW (anchor) -->
+<section class="slide" data-title="Where tools act">
+  <p class="eyebrow">The AI usage flow · where each tool acts</p>
+  <h2>Every tool plugs into one step of the loop. Only some steps drive the bill.</h2>
+  <svg viewBox="0 0 1440 560" width="100%" role="img" aria-label="AI usage loop with tools placed on each step and colored by billed effect">
+    <defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10z" fill="var(--ink-3)"/></marker></defs>
+    <!-- stages -->
+    <g font-size="20" font-weight="650">
+      <rect x="20" y="220" width="200" height="96" rx="12" fill="var(--ink)"/><text x="120" y="262" text-anchor="middle" fill="var(--paper)">① Prompt</text><text x="120" y="290" text-anchor="middle" fill="var(--paper)" font-size="15" font-weight="400">you → agent</text>
+      <rect x="300" y="220" width="220" height="96" rx="12" fill="var(--ink)"/><text x="410" y="262" text-anchor="middle" fill="var(--paper)">② Agent turn</text><text x="410" y="290" text-anchor="middle" fill="var(--paper)" font-size="15" font-weight="400">plan, loop, retry</text>
+      <rect x="600" y="220" width="220" height="96" rx="12" fill="var(--ink)"/><text x="710" y="262" text-anchor="middle" fill="var(--paper)">③ Tool calls</text><text x="710" y="290" text-anchor="middle" fill="var(--paper)" font-size="15" font-weight="400">read, grep, shell</text>
+      <rect x="900" y="220" width="240" height="96" rx="12" fill="var(--ink)"/><text x="1020" y="262" text-anchor="middle" fill="var(--paper)">④ Model + cache</text><text x="1020" y="290" text-anchor="middle" fill="var(--paper)" font-size="15" font-weight="400">context re-sent each call</text>
+      <rect x="1220" y="220" width="200" height="96" rx="12" fill="var(--ink)"/><text x="1320" y="262" text-anchor="middle" fill="var(--paper)">⑤ Output</text><text x="1320" y="290" text-anchor="middle" fill="var(--paper)" font-size="15" font-weight="400">reasoning + code</text>
+    </g>
+    <g stroke="var(--ink-3)" stroke-width="2.5" fill="none" marker-end="url(#ar)">
+      <line x1="222" y1="268" x2="296" y2="268"/><line x1="522" y1="268" x2="596" y2="268"/>
+      <line x1="822" y1="268" x2="896" y2="268"/><line x1="1142" y1="268" x2="1216" y2="268"/>
+      <path d="M1320 318 C1320 400, 410 400, 410 320"/>
+    </g>
+    <text x="865" y="410" class="ink3" font-size="15" text-anchor="middle">next call: the whole context again</text>
+    <!-- tool chips: top row -->
+    <g font-size="16">
+      <rect x="20" y="40" width="200" height="120" rx="10" fill="var(--good-bg)" stroke="var(--good)"/>
+      <text x="36" y="70" class="ink" font-weight="650">cost-coach</text><text x="36" y="96">alerts on empty</text><text x="36" y="118">prompts, cache expiry</text><text x="36" y="140" class="m" fill="var(--good)">0 tokens added</text>
+      <rect x="300" y="40" width="220" height="120" rx="10" fill="var(--good-bg)" stroke="var(--good)"/>
+      <text x="316" y="70" class="ink" font-weight="650">TokenEconomizer</text><text x="316" y="96">stops failure loops,</text><text x="316" y="118">prunes unused tools</text><text x="316" y="140" class="m" fill="var(--good)">−18 to −31%*</text>
+      <rect x="600" y="40" width="220" height="120" rx="10" fill="var(--warn-bg)" stroke="var(--warn)"/>
+      <text x="616" y="70" class="ink" font-weight="650">codegraph · serena</text><text x="616" y="96">1 graph query instead</text><text x="616" y="118">of grep → read → read</text><text x="616" y="140" class="m" fill="var(--warn)">−16% big repos · +5–28% ours</text>
+      <rect x="900" y="40" width="240" height="120" rx="10" fill="var(--cost-bg)" stroke="var(--cost)"/>
+      <text x="916" y="70" class="ink" font-weight="650">headroom (proxy)</text><text x="916" y="96">rewrites old context</text><text x="916" y="118">→ breaks the cache</text><text x="916" y="140" class="m" fill="var(--cost)">±2% cache mode · +61% token</text>
+      <rect x="1220" y="40" width="200" height="120" rx="10" fill="var(--good-bg)" stroke="var(--good)"/>
+      <text x="1236" y="70" class="ink" font-weight="650">Ponytail rule</text><text x="1236" y="96">smallest change,</text><text x="1236" y="118">less code written</text><text x="1236" y="140" class="m" fill="var(--good)">−10% ext. · ours n=1 mixed</text>
+    </g>
+    <g font-size="16">
+      <rect x="600" y="440" width="220" height="100" rx="10" fill="var(--cost-bg)" stroke="var(--cost)"/>
+      <text x="616" y="470" class="ink" font-weight="650">rtk · context-mode</text><text x="616" y="494">shrink shell output</text><text x="616" y="518" class="m" fill="var(--cost)">−5 to +17% (rtk)</text>
+      <rect x="1220" y="440" width="200" height="100" rx="10" fill="var(--cost-bg)" stroke="var(--cost)"/>
+      <text x="1236" y="470" class="ink" font-weight="650">caveman</text><text x="1236" y="494">terse prose only</text><text x="1236" y="518" class="m" fill="var(--cost)">−1 to +63%</text>
+    </g>
+    <g stroke-width="1.5" stroke-dasharray="4 4" stroke="var(--ink-3)">
+      <line x1="120" y1="160" x2="120" y2="220"/><line x1="410" y1="160" x2="410" y2="220"/><line x1="710" y1="160" x2="710" y2="220"/>
+      <line x1="1020" y1="160" x2="1020" y2="220"/><line x1="1320" y1="160" x2="1320" y2="220"/>
+      <line x1="710" y1="318" x2="710" y2="440"/><line x1="1320" y1="318" x2="1320" y2="440"/>
+    </g>
+  </svg>
+  <div class="row" style="gap:28px;font-size:16px;margin-top:-6px">
+    <span class="pill good">lowers billed cost</span><span class="pill warn">depends on workload</span><span class="pill bad">can raise billed cost</span>
+    <span class="tag">numbers = change in billed $, not tokens · * authors’ paper</span>
+  </div>
+  <div class="foot"><span class="src">Sources: JetBrains, Quesma, Codepointer, TokenEconomizer arXiv 2610.22732, codegraph #1393, our v1 + v2 A/B (132 graded sessions).</span><span>6</span></div>
+  <aside class="note">[핵심 앵커 슬라이드] 오늘 발표의 지도입니다. AI를 쓰는 흐름은 프롬프트, 에이전트 턴, 도구 호출, 모델과 캐시, 출력의 다섯 단계이고, 출력이 끝나면 전체 컨텍스트를 다시 보내며 반복합니다. 각 도구가 어느 단계에 붙는지와 실제 청구액 변화를 색으로 표시했습니다. 초록은 줄어든 것, 주황은 상황에 따라, 빨강은 오히려 늘어날 수 있는 것입니다. 행동을 바꾸는 도구는 초록, 텍스트를 압축하는 도구는 주황이나 빨강이라는 점을 기억해 주세요.</aside>
+</section>
+
+<!-- ============================================================ 7. FIRST PRINCIPLES -->
+<section class="slide" data-title="What the bill is">
+  <p class="eyebrow">First principles · what the bill is made of</p>
+  <h2>72% of the bill is writing new context into the cache. Old context is already 90% off.</h2>
+  <div class="col" style="gap:14px">
+    <svg viewBox="0 0 1440 120" width="100%" role="img" aria-label="Claude bill breakdown: cache write 72%, output 14%, cache read 14%">
+      <rect x="0" y="10" width="1032" height="70" rx="6" fill="var(--cost)"/>
+      <rect x="1036" y="10" width="200" height="70" fill="var(--save)"/>
+      <rect x="1240" y="10" width="200" height="70" rx="6" fill="var(--ink-3)"/>
+      <text x="24" y="54" fill="#fff" font-size="22" font-weight="650">Cache write 72% · new context at 1.25–2× price</text>
+      <text x="1052" y="54" fill="#fff" font-size="20" font-weight="600">Output 14% · 5×</text>
+      <text x="1256" y="54" fill="#fff" font-size="20" font-weight="600">Read 14% · 0.1×</text>
+      <text x="0" y="110" class="ink3" font-size="15">90 Claude Code sessions, 3 days, priced per API call (cost-coach). Uncached input ≈ 0%. Cache hit 89%.</text>
+    </svg>
+  </div>
+  <div class="row" style="gap:20px">
+    <div class="card grow"><span class="tag">ATOM 1</span><h3>Calls (turns × tool calls)</h3><p>Each call re-sends the whole context. Fewer turns and loops cut everything.</p></div>
+    <div class="card grow"><span class="tag">ATOM 2</span><h3>New context</h3><p>Every new file, log or tool result is written to cache once at 1.25–2×.</p></div>
+    <div class="card grow top-cost"><span class="tag">ATOM 3</span><h3>Cache rebuilds</h3><p>A lost prefix is re-written in full. <b>$66 of $185</b> on one Mac in one week.</p></div>
+    <div class="card grow"><span class="tag">ATOM 4</span><h3>Output</h3><p>Reasoning + code at 5×. Prose is a small part; less code is the lever.</p></div>
+  </div>
+  <div class="callout">Five whys, root cause: tools optimise tokens per payload; the bill is driven by calls × new context, rebuilds and output.</div>
+  <div class="foot"><span class="src">Claude pricing: write 1.25× (5 min) / 2× (1 h), read 0.1×, output 5× input. Devin CLI: 0.4 ACU per 1M input tokens, also cached.</span><span>7</span></div>
+  <aside class="note">[1원리] 청구액을 쪼개 보면 72%가 캐시에 새 컨텍스트를 쓰는 비용입니다. 이미 캐시된 옛 컨텍스트는 0.1배라 거의 공짜입니다. 그래서 청구액을 움직이는 원자는 네 가지입니다: 호출 수, 새로 읽는 컨텍스트, 캐시 재작성, 출력. 특히 캐시 재작성은 제 Mac에서만 한 주에 185달러 중 66달러였습니다. 5 Whys로 내려가면 근본 원인은, 도구는 응답당 토큰을 줄이는데 청구액은 행동이 결정한다는 것입니다.</aside>
+</section>
+
+<!-- ============================================================ 8. COMPARISON -->
+<section class="slide" data-title="Advertised vs measured">
+  <p class="eyebrow">Comparison · advertised vs measured billed cost</p>
+  <h2>Advertised savings are payload compression. Billed cost tells another story.</h2>
+  <svg id="cmp" viewBox="0 0 1440 560" width="100%" role="img" aria-label="Advertised savings versus measured billed-cost change per tool"></svg>
+  <div class="row" style="gap:28px;font-size:16px;margin-top:-10px">
+    <span class="tag">◇ advertised (vendor)</span><span class="tag" style="color:var(--save)">● measured saving</span><span class="tag" style="color:var(--cost)">● measured cost increase</span>
+    <span class="tag">line = range across independent studies and our runs</span>
+  </div>
+  <div class="foot"><span class="src">JetBrains, Quesma, Codepointer, MS TokenEconomizer paper, codegraph #1393, our v1 + v2 A/B (Sonnet 5.5). Ponytail “ours” = n=1 per scenario.</span><span>8</span></div>
+  <aside class="note">[비교 분석] 다이아몬드는 각 도구가 광고하는 절감률이고, 점은 독립 연구와 저희 측정에서 나온 실제 청구액 변화입니다. 위의 세 개는 행동을 바꾸는 도구로 대부분 왼쪽, 즉 절감 쪽에 있습니다. 아래 세 개는 압축 도구로, 광고는 60~90%인데 실제 점은 0 근처이거나 오른쪽, 즉 비용 증가 쪽에 있습니다. headroom 예전 모드는 캐시를 깨서 61%, caveman 최신 버전은 긴 세션에서 63%까지 늘었습니다. 점에는 저희 최신 버전 재검증 결과도 포함돼 있고, 다음 장에서 자세히 보여드리겠습니다.</aside>
+</section>
+
+<!-- ============================================================ 9. OUR RE-TEST -->
+<section class="slide" data-title="Our re-test">
+  <p class="eyebrow">Our re-test (v2) · latest versions, scenarios built to favour each tool</p>
+  <h2>54 graded sessions: no compression tool lowered the bill; caveman raised it up to 63%.</h2>
+  <div class="row" style="gap:28px;flex:1">
+    <div class="col" style="flex:1.7">
+      <table class="t">
+        <tr><th style="width:34%">Arm (vs base, median billed $)</th><th>S1 CI triage<br><span style="text-transform:none">shell-heavy · base $0.180</span></th><th>S2 trace &amp; fix<br><span style="text-transform:none">navigation · base $0.113</span></th><th>S3 long RCA<br><span style="text-transform:none">165K context · base $0.890</span></th><th>Verdict</th></tr>
+    <tr><td><b>rtk 1.2.0</b></td><td class="num"><span class="pill info" style="font-size:15px">+9%</span></td><td class="num"><span class="pill info" style="font-size:15px">−5%</span></td><td class="num"><span class="pill info" style="font-size:15px">−2%</span></td><td><span class="pill info">no effect</span></td></tr>
+    <tr><td><b>codegraph 1.6.2</b></td><td class="num"><span class="pill info" style="font-size:15px">+5%</span></td><td class="num"><span class="pill bad" style="font-size:15px">+28%</span></td><td class="num"><span class="pill info" style="font-size:15px">+7%</span></td><td><span class="pill info">no effect</span></td></tr>
+    <tr><td><b>headroom 0.44 (cache mode)</b></td><td class="num"><span class="pill info" style="font-size:15px">+2%</span></td><td class="num"><span class="pill info" style="font-size:15px">+1%</span></td><td class="num"><span class="pill info" style="font-size:15px">−1%</span></td><td><span class="pill info">no effect</span></td></tr>
+    <tr><td><b>caveman 4.1.0</b></td><td class="num"><span class="pill bad" style="font-size:15px">+46%</span></td><td class="num"><span class="pill info" style="font-size:15px">−1%</span></td><td class="num"><span class="pill bad" style="font-size:15px">+63%</span></td><td><span class="pill bad">costs more</span></td></tr>
+    <tr><td><b>rtk + codegraph + caveman</b></td><td class="num"><span class="pill info" style="font-size:15px">−3%</span></td><td class="num"><span class="pill bad" style="font-size:15px">+25%</span></td><td class="num"><span class="pill bad" style="font-size:15px">+45%</span></td><td><span class="pill bad">costs more</span></td></tr>
+    <tr><td><b>Ponytail 5.3.3 (n=1)</b></td><td class="num"><span class="pill bad" style="font-size:15px">+29%</span></td><td class="num"><span class="pill info" style="font-size:15px">+6%</span></td><td class="num"><span class="pill info" style="font-size:15px">−6%</span></td><td><span class="pill warn">inconclusive</span></td></tr>
+      </table>
+      <p style="font-size:16px">n = 3 per cell (Ponytail n = 1). Quality: 53 of 54 sessions full marks (combo 4/5 once). Blue = within noise, red = ≥ 10% more.</p>
+    </div>
+    <div class="col" style="flex:1;gap:16px">
+      <div class="card top-save"><h3>Decision rule, fixed before the run</h3><p>A tool saves money only if median billed cost is <b>≥ 10% below base</b>, every rep beats base’s worst rep, and quality holds.</p></div>
+      <div class="card top-warn"><h3>Why one run lies</h3><p>Same arm re-run swings ±30% on short tasks. After rep 1, four tools looked like <b>11–28% savings</b>; all vanished by rep 3.</p></div>
+      <div class="card"><h3>Every number is checkable</h3><p>Billed $ matches Claude Code’s own reported cost in all 72 sessions. <span class="mono" style="font-size:15px">experiments/2026-11-tool-ab-v2/data/all_sessions.csv</span></p></div>
+    </div>
+  </div>
+  <div class="foot"><span class="src">Claude Code 2.1.322, claude-sonnet-5-5, 2026-11-11 · spend $24.48 (v2) + $2.12 (Ponytail) · experiments/2026-11-tool-ab-v2/analysis.md</span><span>9</span></div>
+  <aside class="note">[우리 재검증] 앞의 차트는 여러 출처를 모은 것이고, 이 장은 저희가 직접 다시 잰 결과입니다. 1차 측정에 대해 "도구 버전이 옛날 것 아니냐, 시나리오가 도구에 불리했던 것 아니냐"는 지적이 있어서, 최신 버전으로, 각 도구에 유리하게 설계한 시나리오 3개를 3번씩, 총 54세션을 다시 돌렸습니다. 판단 기준은 실행 전에 정했습니다. 중앙값이 10% 이상 싸고, 모든 회차가 base의 최악보다 싸고, 품질이 같아야 절감으로 인정합니다. 결과는 어떤 압축 도구도 기준을 통과하지 못했고, caveman은 긴 세션에서 63% 비쌌습니다. 도구는 실제로 작동했습니다. rtk는 81개 명령 중 46개를 바꿨고 headroom은 170개 요청 중 152개를 압축했습니다. 그런데도 청구액은 그대로였습니다. 그리고 한 번만 돌리면 속는다는 점도 중요합니다. 첫 회차만 보면 네 개 도구가 11~28% 절감처럼 보였는데, 3회차까지 하니 사라졌습니다. Ponytail은 1회만 측정해서 아직 판단 보류입니다. 모든 세션의 청구액은 Claude Code가 직접 보고한 비용과 일치하고, CSV로 누구나 확인할 수 있습니다.</aside>
+</section>
+
+<!-- ============================================================ 9. DEEP DIVE A -->
+<section class="slide" data-title="Deep dive: behaviour tools">
+  <p class="eyebrow">Deep dive A · tools that change behaviour</p>
+  <h2>The only measured savings came from tools that reduce what the agent does.</h2>
+  <div class="row" style="gap:22px;flex:1">
+    <div class="card grow top-good">
+      <div class="row" style="justify-content:space-between"><h3>TokenEconomizer</h3><span class="pill info">② agent turn</span></div>
+      <p class="tag">Microsoft Research · 5.6K★ · Apache-2.0</p>
+      <p><b>How:</b> learns repo facts, prunes unused tools, stops failure loops.</p>
+      <p><b>Result:</b> −18.4 to −30.9% cache-aware cost, 579 tasks, Pass@1 up in 4 of 5 setups.</p>
+      <p><b>Limits:</b> authors’ own paper; first ~5 tasks per repo cost more; Claude Code only, not Devin.</p>
+      <span class="kpi save" style="font-size:40px;margin-top:auto">0 → −24%</span>
+    </div>
+    <div class="card grow top-good">
+      <div class="row" style="justify-content:space-between"><h3>Ponytail (as a rule)</h3><span class="pill info">⑤ output</span></div>
+      <p class="tag">188K★ · MIT · skill</p>
+      <p><b>How:</b> “smallest change first”: reuse, no speculative code.</p>
+      <p><b>Result:</b> −10.3% billed cost, p=0.004 (JetBrains, 80 tasks). Ours, n=1 per scenario: −6% long RCA, +6% / +29% short tasks.</p>
+      <p><b>Limits:</b> skipped tests/docs more often (27 vs 17 misses); trojan clone on a marketplace. Use the rule in AGENTS.md.</p>
+      <span class="kpi save" style="font-size:40px;margin-top:auto">0 → −10%</span>
+    </div>
+    <div class="card grow top-warn">
+      <div class="row" style="justify-content:space-between"><h3>codegraph</h3><span class="pill info">③ tool calls</span></div>
+      <p class="tag">77K★ · MIT · MCP</p>
+      <p><b>How:</b> pre-built symbol graph; one query instead of grep → read → read.</p>
+      <p><b>Result:</b> −16.3% cost on 7 large repos; file reads −76%.</p>
+      <p><b>Limits:</b> ours v2 +5 / +28 / +7% (agent preferred grep, 32 calls in 9 sessions); +23% time; telemetry on.</p>
+      <span class="kpi" style="font-size:40px;margin-top:auto;color:var(--warn)">+28 → −16%</span>
+    </div>
+  </div>
+  <div class="foot"><span class="src">Ranges = billed cost, pessimistic → optimistic. arXiv 2610.22732; JetBrains AI blog; narration-studio #3032; codegraph #1393.</span><span>10</span></div>
+  <aside class="note">[딥다이브 A] 실제 절감이 확인된 세 도구입니다. 공통점은 텍스트가 아니라 에이전트의 행동을 줄인다는 것입니다. TokenEconomizer는 실패 루프와 안 쓰는 도구를 정리하고, Ponytail은 코드를 덜 쓰게 하고, codegraph는 파일 탐색 횟수를 줄입니다. 각각 한계도 분명합니다. TokenEconomizer는 개발자 논문뿐이고 Devin에서는 못 쓰고, Ponytail은 테스트와 문서 누락이 늘었고, codegraph는 짧은 질문에서는 오히려 비쌉니다.</aside>
+</section>
+
+<!-- ============================================================ 10. DEEP DIVE B -->
+<section class="slide" data-title="Deep dive: compression tools">
+  <p class="eyebrow">Deep dive B · tools that compress text</p>
+  <h2>Latest versions, best-case scenarios: the most-starred compressors still did not lower the bill.</h2>
+  <div class="row" style="gap:22px;flex:1">
+    <div class="card grow top-cost">
+      <div class="row" style="justify-content:space-between"><h3>headroom</h3><span class="pill info">④ model + cache</span></div>
+      <p class="tag">79K★ · Apache-2.0 · proxy</p>
+      <p><b>How:</b> rewrites requests to compress JSON, logs, code.</p>
+      <p><b>Result:</b> v0.44 cache mode (now default) <b>−1 to +2%</b>; old token mode <b>+61%</b> (4 cache rebuilds).</p>
+      <p><b>Limits:</b> sees API keys + prompts, keys in cleartext, telemetry on; not usable with Devin.</p>
+      <span class="kpi cost" style="font-size:40px;margin-top:auto">+61 → −1%</span>
+    </div>
+    <div class="card grow top-cost">
+      <div class="row" style="justify-content:space-between"><h3>rtk</h3><span class="pill info">③ tool output</span></div>
+      <p class="tag">86K★ · Apache + BUSL · hook</p>
+      <p><b>How:</b> rewrites shell commands and filters their output.</p>
+      <p><b>Result:</b> ours v1.2.0 −5 to +9% while rewriting 46 of 81 commands; JetBrains +7.6%; Quesma ±5%, Pass@1 −1–2 pt.</p>
+      <p><b>Limits:</b> lossy output → retries (piped grep 59 → 0 lines); Bash only, not Read/Grep.</p>
+      <span class="kpi cost" style="font-size:40px;margin-top:auto">+9 → −5%</span>
+    </div>
+    <div class="card grow top-cost">
+      <div class="row" style="justify-content:space-between"><h3>caveman</h3><span class="pill info">⑤ output</span></div>
+      <p class="tag">119K★ · Apache-2.0 · skill</p>
+      <p><b>How:</b> terse answer style; v4 adds a proxy and cloud router.</p>
+      <p><b>Result:</b> ours v4.1.0 <b>+46% / −1% / +63%</b>: the agent re-fetched compressed text 11–14× per long session.</p>
+      <p><b>Limits:</b> ⅔ of output is reasoning + code it cannot shorten; CLI telemetry on.</p>
+      <span class="kpi cost" style="font-size:40px;margin-top:auto">+63 → −1%</span>
+    </div>
+  </div>
+  <div class="callout">The tools were active (rtk rewrote 46 commands, headroom compressed 152 of 170 requests). They shrink what is already cheap, or add turns.</div>
+  <div class="foot"><span class="src">Also checked: context-mode 34K★ (no billed-cost data, ELv2), serena (raised pooled cost in MS paper), graphify (7.3× vs 71.5× claimed).</span><span>11</span></div>
+  <aside class="note">[딥다이브 B] 별이 가장 많은 압축 도구들입니다. headroom은 프록시로 예전 대화를 다시 써서 캐시를 깨뜨렸고, 저희 측정에서 61% 비싸졌습니다. rtk는 JetBrains에서 7.6% 비싸졌고, Quesma 1,740회 실험에서 정답률이 1~2점 떨어졌습니다. caveman은 읽기는 편해지지만 출력의 3분의 2인 추론과 코드는 못 줄입니다. 이유는 이미 싼 것을 줄이거나, 기록을 다시 써서 캐시를 깨기 때문입니다.</aside>
+</section>
+
+<!-- ============================================================ 11. LIMITATIONS & SECURITY -->
+<section class="slide" data-title="Limitations & security">
+  <p class="eyebrow">Limitations &amp; security · before anyone installs anything</p>
+  <h2>Proxies see our keys and code. Four tools send telemetry by default.</h2>
+  <table class="t">
+    <tr><th style="width:28%">Risk</th><th style="width:50%">Tools</th><th>Severity</th></tr>
+    <tr><td><b>Sees API keys and full prompts</b></td><td>headroom proxy (keys in cleartext), caveman proxy + Auto cloud, rtk-proxy</td><td><span class="pill bad">High</span></td></tr>
+    <tr><td><b>Past critical / high CVEs</b> (patched)</td><td>serena (critical RCE + 2 high), headroom, rtk, graphify</td><td><span class="pill bad">High</span></td></tr>
+    <tr><td><b>Impostors / malicious clones</b></td><td>Ponytail trojan clone (#735), graphify (official is graphifyy), rtk name collision</td><td><span class="pill bad">High</span></td></tr>
+    <tr><td><b>Telemetry on by default</b></td><td>headroom beacon, caveman CLI, codegraph, codeburn desktop</td><td><span class="pill warn">Medium</span></td></tr>
+    <tr><td><b>Changes agent settings</b></td><td>codegraph (auto-allow), TokenEconomizer (deny rules), context-mode (hooks)</td><td><span class="pill warn">Medium</span></td></tr>
+    <tr><td><b>Non-OSI license</b></td><td>context-mode (ELv2), rtk engine/proxy (BUSL-1.1)</td><td><span class="pill warn">Medium</span></td></tr>
+    <tr><td><b>Lowest risk</b></td><td>AGENTS.md rules, cost-coach (local, stdlib), ccusage --offline</td><td><span class="pill good">Low</span></td></tr>
+  </table>
+  <div class="callout" style="font-size:20px">Policy we propose: no proxy in front of company code · telemetry off · official repos at pinned versions.</div>
+  <div class="foot"><span class="src">Checked 2026-11-11: each repo’s README, SECURITY.md, TELEMETRY.md and GitHub security advisories.</span><span>12</span></div>
+  <aside class="note">[한계와 보안] 도구를 깔기 전에 꼭 보셔야 할 표입니다. 가장 큰 위험은 프록시입니다. API 키와 코드 전체를 봅니다. 과거에 심각한 취약점이 있었던 도구, 악성 복제본이 돈 도구도 있습니다. 그래서 제안하는 정책은 세 가지입니다: 회사 코드 앞에 프록시 금지, 텔레메트리 끄기, 공식 저장소의 고정 버전만 사용.</aside>
+</section>
+
+<!-- ============================================================ 12. CONCLUSION / PATTERNS -->
+<section class="slide" data-title="Usage patterns">
+  <p class="eyebrow">Conclusion · the usage patterns we should adopt</p>
+  <h2>Six habits that cut the atoms of the bill. No install required.</h2>
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:18px">
+    <div class="card"><span class="tag">REBUILDS</span><h3>New task, new session</h3><p>After a break longer than the cache lifetime (5 min), start fresh with a short summary.</p></div>
+    <div class="card"><span class="tag">REBUILDS</span><h3>Keep the prefix stable</h3><p>Don’t edit CLAUDE.md / AGENTS.md / MCP / model during a session.</p></div>
+    <div class="card"><span class="tag">CALLS</span><h3>One message, full intent</h3><p>No bare “ok”: put the next instruction, spec and done-criteria in the same message.</p></div>
+    <div class="card"><span class="tag">NEW CONTEXT</span><h3>Read less, once</h3><p>Point to files and line ranges; ask for an aggregation script instead of dumping logs.</p></div>
+    <div class="card"><span class="tag">OUTPUT</span><h3>Smallest change first</h3><p>Reuse before writing; still require tests for fixes and doc updates.</p></div>
+    <div class="card"><span class="tag">CALLS</span><h3>Stop loops early</h3><p>After 2 corrections or 3 failed tries, restate the requirement or restart.</p></div>
+  </div>
+  <div class="callout">The cheapest wins are things we stop doing. cost-coach reminds you at exactly these moments.</div>
+  <div class="foot"><span class="src">Each habit maps to one bill atom from slide 7. Ready-to-use rule block: skills/cost-discipline/SKILL.md.</span><span>13</span></div>
+  <aside class="note">[결론과 지향 패턴] 결론은 도구보다 습관입니다. 여섯 가지 습관이 각각 청구액의 원자 하나씩을 줄입니다. 쉬고 나서 큰 세션을 이어가지 말고 새 세션으로, 세션 중에 설정 파일 바꾸지 않기, ok만 보내지 말고 다음 지시까지 한 번에, 필요한 파일만 읽게 하기, 가장 작은 변경부터, 그리고 루프는 일찍 끊기. 설치 없이 오늘부터 할 수 있고, cost-coach가 바로 이 순간들에 알려줍니다.</aside>
+</section>
+
+<!-- ============================================================ 13. SAVINGS -->
+<section class="slide dark" data-title="Expected savings">
+  <p class="eyebrow">Expected savings · projection, to be verified</p>
+  <h2>Expected −17% on Claude and −8% on Devin. That is up to a fifth more AI per quarter.</h2>
+  <svg viewBox="0 0 1440 330" width="100%" role="img" aria-label="Savings ranges: Claude 0 to minus 31 expected minus 17; Devin CLI 0 to minus 20 expected minus 10; Devin cloud 0 to minus 16 expected minus 8">
+    <!-- x: 0% at 1300, -35% at 300 → 28.57 px per % -->
+    <g stroke="color-mix(in srgb,var(--paper) 22%,transparent)">
+      <line x1="1300" y1="20" x2="1300" y2="290"/><line x1="1014" y1="20" x2="1014" y2="290" stroke-dasharray="3 4"/>
+      <line x1="729" y1="20" x2="729" y2="290" stroke-dasharray="3 4"/><line x1="443" y1="20" x2="443" y2="290" stroke-dasharray="3 4"/>
+    </g>
+    <g font-size="15" class="m" text-anchor="middle">
+      <text x="1300" y="318" fill="#9FB0C2">0%</text><text x="1014" y="318" fill="#9FB0C2">−10%</text><text x="729" y="318" fill="#9FB0C2">−20%</text><text x="443" y="318" fill="#9FB0C2">−30%</text>
+    </g>
+    <g font-size="20">
+      <text x="0" y="72" font-weight="650" fill="var(--paper)">Claude Code (AWS)</text>
+      <rect x="414" y="50" width="886" height="34" rx="17" fill="#3987e5" opacity=".45"/>
+      <circle cx="814" cy="67" r="15" fill="#3987e5" stroke="var(--ink)" stroke-width="3"/><text x="814" y="38" text-anchor="middle" class="m" font-size="18" font-weight="600" fill="var(--paper)">−17%</text>
+      <text x="0" y="162" font-weight="650" fill="var(--paper)">Devin CLI (ACU)</text>
+      <rect x="729" y="140" width="571" height="34" rx="17" fill="#3987e5" opacity=".45"/>
+      <circle cx="1014" cy="157" r="15" fill="#3987e5" stroke="var(--ink)" stroke-width="3"/><text x="1014" y="128" text-anchor="middle" class="m" font-size="18" font-weight="600" fill="var(--paper)">−10%</text>
+      <text x="0" y="252" font-weight="650" fill="var(--paper)">Devin cloud (ACU)</text>
+      <rect x="843" y="230" width="457" height="34" rx="17" fill="#3987e5" opacity=".45"/>
+      <circle cx="1071" cy="247" r="15" fill="#3987e5" stroke="var(--ink)" stroke-width="3"/><text x="1071" y="218" text-anchor="middle" class="m" font-size="18" font-weight="600" fill="var(--paper)">−8%</text>
+    </g>
+  </svg>
+  <div class="row" style="gap:20px">
+    <div class="card grow"><h3 style="color:#F3F6F9">Claude levers</h3><p>Cache habits −3/−7/−12 · smallest-change rule 0/−5/−10 · TokenEconomizer 0/−12/−24 · codegraph +5/−2/−8</p></div>
+    <div class="card grow"><h3 style="color:#F3F6F9">Devin levers</h3><p>No fast mode (4× ACU) · fewer back-and-forths · AGENTS.md rules · codegraph MCP. No proxy, no TokenEconomizer.</p></div>
+    <div class="card grow"><h3 style="color:#F3F6F9">What it buys</h3><p>On a $600 quarter: −17% = <b>+$123 of work</b>, ≈ 20 more tasks. Prepaid contracts: slower burn, smaller renewal.</p></div>
+  </div>
+  <div class="foot"><span class="src">Combined as 1 − Π(1 − lever) × 0.7 overlap. Bar = pessimistic → optimistic; dot = expected. Not yet measured; pilot will verify.</span><span>14</span></div>
+  <aside class="note">[절감 기대치] 지금까지의 근거로 계산한 예상치입니다. 아직 측정한 결과가 아니라는 점을 분명히 말씀드립니다. Claude는 0에서 31% 사이, 예상 17%. Devin CLI는 예상 10%, Devin 클라우드는 ACU에 VM 비용이 섞여 있어 예상 8%입니다. 분기 600달러 기준이면 17% 절감은 123달러어치, 약 20개 작업을 더 할 수 있다는 뜻입니다. 이 숫자는 다음 파일럿으로 검증하겠습니다.</aside>
+</section>
+
+<!-- ============================================================ 14. PLAYGROUND -->
+<section class="slide" data-title="Playground">
+  <p class="eyebrow">Playground · try it in 3 minutes</p>
+  <h2>One repo with the research, the coach, and a folder per tool to try and report.</h2>
+  <div class="row" style="gap:32px;flex:1">
+    <div class="card" style="width:600px;font-family:var(--f-mono);font-size:17px;line-height:1.7;color:var(--ink)">
+      <span class="tag" style="font-family:var(--f-mono)">github.com/ssoya010-hash/cost-saving-ai</span>
+<pre style="margin:0;font:inherit;white-space:pre">├── guides/       quickstart, tool verdicts, Devin
+├── skills/       cost-discipline (agent rules)
+├── utils/        cost-coach: alerts + weekly retro
+├── playground/   one card per tool + RESULTS.md
+├── experiments/  A/B v1, v2, this talk, _template
+├── research/     surveys, analysis, sources
+├── design/       billing model, decision rule
+└── community/    channels, #ai-playground</pre>
+    </div>
+    <div class="col grow" style="gap:16px">
+      <div class="card top-good"><span class="tag">STEP 1 · 1 min</span><h3>Install the coach</h3><p class="mono" style="font-size:17px">./install.sh &amp;&amp; cost-coach doctor</p><p>Mac alerts at costly moments; weekly retro every Friday 10:00. Adds 0 tokens.</p></div>
+      <div class="card"><span class="tag">STEP 2 · 1 week</span><h3>Measure your baseline</h3><p class="mono" style="font-size:17px">cost-coach mark "baseline" · cost-coach status</p></div>
+      <div class="card"><span class="tag">STEP 3 · 1–2 weeks</span><h3>Try one tool, compare, share</h3><p class="mono" style="font-size:17px">cost-coach compare → experiments/ or playground/&lt;tool&gt;/RESULTS.md</p></div>
+    </div>
+  </div>
+  <div class="foot"><span class="src">Each playground folder: what it does, where it acts in the loop, setup, limits, security notes, results from colleagues.</span><span>15</span></div>
+  <aside class="note">[플레이그라운드] 오늘 내용은 전부 이 저장소에 있습니다. 연구 자료, cost-coach, 그리고 도구마다 폴더가 있어서 써 보고 결과를 남길 수 있습니다. 시작은 3단계입니다. 코치를 설치하고, 일주일 기준선을 재고, 도구 하나를 써 본 뒤 비교 결과를 해당 폴더에 남기는 것입니다. 코치는 AI에 토큰을 하나도 추가하지 않습니다.</aside>
+</section>
+
+<!-- ============================================================ 15. PROPOSAL -->
+<section class="slide" data-title="Proposal">
+  <p class="eyebrow">Proposal · close the gap together</p>
+  <h2>Let’s open a GOT-level #ai-playground channel and run this as a shared loop.</h2>
+  <div class="row" style="gap:40px;align-items:center;flex:1">
+    <svg viewBox="0 0 560 520" width="560" role="img" aria-label="Flywheel: try, measure, share, adopt">
+      <circle cx="280" cy="260" r="180" fill="none" stroke="var(--rule)" stroke-width="22"/>
+      <path d="M280 80 A180 180 0 0 1 460 260" fill="none" stroke="var(--save)" stroke-width="22"/>
+      <path d="M460 260 A180 180 0 0 1 280 440" fill="none" stroke="var(--accent)" stroke-width="22" opacity=".8"/>
+      <path d="M280 440 A180 180 0 0 1 100 260" fill="none" stroke="var(--good)" stroke-width="22"/>
+      <path d="M100 260 A180 180 0 0 1 280 80" fill="none" stroke="var(--warn)" stroke-width="22"/>
+      <g>
+        <path d="M447 196 l13 22 l13 -22z" fill="var(--save)"/>
+        <path d="M218 427 l-22 13 l22 13z" fill="var(--good)" transform="translate(0,0)"/>
+        <path d="M113 324 l-13 -22 l-13 22z" fill="var(--warn)"/>
+        <path d="M342 93 l22 -13 l-22 -13z" fill="var(--save)"/>
+      </g>
+      <g font-size="22" font-weight="700" class="ink" text-anchor="middle">
+        <text x="420" y="110">Try</text><text x="470" y="430">Measure</text><text x="110" y="430">Share</text><text x="120" y="110">Adopt</text>
+      </g>
+      <text x="280" y="250" text-anchor="middle" class="ink" font-size="26" font-weight="700">#ai-playground</text>
+      <text x="280" y="282" text-anchor="middle" font-size="17">one channel, one repo</text>
+    </svg>
+    <div class="col grow" style="gap:16px">
+      <div class="card"><h3>Try</h3><p>Anyone picks a tool or habit from the playground and runs it on real work.</p></div>
+      <div class="card"><h3>Measure</h3><p>Billed $ per task with cost-coach, not tokens. Same task mix before and after.</p></div>
+      <div class="card"><h3>Share</h3><p>Post the result in #ai-playground and add it to <span class="mono">playground/&lt;tool&gt;/RESULTS.md</span>.</p></div>
+      <div class="card"><h3>Adopt</h3><p>What saves ≥10% with no quality loss becomes a GOT default (rules, configs).</p></div>
+    </div>
+  </div>
+  <div class="foot"><span class="src">Ask: GOT sponsorship for the channel, 3–5 volunteer teams for the first pilot.</span><span>16</span></div>
+  <aside class="note">[제안] 반응이 좋으면 GOT 레벨에 ai-playground 채널을 만들자고 제안드립니다. 시도하고, 측정하고, 공유하고, 채택하는 플라이휠을 같이 돌리자는 것입니다. 기준은 토큰이 아니라 작업당 청구액이고, 10% 이상 절감되고 품질 손실이 없으면 GOT 기본값으로 채택합니다. 채널 스폰서십과 첫 파일럿에 참여할 3~5개 팀을 부탁드립니다.</aside>
+</section>
+
+<!-- ============================================================ 16. NEXT & NORTH STAR -->
+<section class="slide" data-title="Next & North Star">
+  <p class="eyebrow">Next plan · North Star</p>
+  <h2>North Star: more AI work per person, at a lower cost per completed task.</h2>
+  <div class="card top-save" style="flex-direction:row;align-items:center;gap:40px;padding:28px 34px">
+    <div class="col" style="gap:6px"><span class="tag">NORTH STAR METRIC</span><span style="font-size:30px;font-weight:700;color:var(--ink);line-height:1.3">Billed $ per completed task <span style="color:var(--save)">↓</span><br>AI tasks per person per quarter <span style="color:var(--good)">↑</span></span></div>
+    <div class="col" style="gap:6px;margin-left:auto"><span class="tag">GUARDRAIL</span><span style="font-size:20px;color:var(--ink)">Task success and review quality do not drop</span></div>
+  </div>
+  <div class="row" style="gap:20px;flex:1">
+    <div class="card grow"><span class="pill info">NOW · Nov</span><h3>Start</h3><ul class="clean"><li>Share deck + repo</li><li>cost-coach for volunteers</li><li>Cost rules in AGENTS.md</li><li>Devin: fast mode off by default</li></ul></div>
+    <div class="card grow"><span class="pill info">NEXT · Dec–Jan</span><h3>Pilot</h3><ul class="clean"><li>3–5 teams, 2 weeks baseline + 2 weeks change</li><li>TokenEconomizer + codegraph on big repos</li><li>Devin consumption API export</li><li>Report measured savings</li></ul></div>
+    <div class="card grow"><span class="pill info">LATER · Q1</span><h3>Scale</h3><ul class="clean"><li>GOT defaults from what worked</li><li>Team dashboard of $/task</li><li>Feed results into next quarter’s caps</li><li>Re-evaluate tools each quarter</li></ul></div>
+  </div>
+  <div class="foot"><span class="src">Decision rule for any change: ≥ 10% billed saving, ≥ 20 sessions per side, no quality loss.</span><span>17</span></div>
+  <aside class="note">[다음 계획과 노스스타] 우리가 향하는 노스스타는 작업당 청구액은 내려가고, 사람당 AI 작업량은 올라가는 것입니다. 단 성공률과 리뷰 품질은 떨어지지 않아야 합니다. 지금은 공유와 자원자 설치, 다음 달부터 3~5개 팀 파일럿으로 실제 절감을 측정하고, 1분기에는 효과가 확인된 것을 GOT 기본값으로 만들고 다음 분기 한도 설정에도 반영하는 것이 목표입니다. 감사합니다.</aside>
+</section>
+
+<!-- ============================================================ A1. METHOD -->
+<section class="slide" data-title="Appendix: method">
+  <p class="eyebrow">Appendix A1 · method &amp; evidence</p>
+  <h2>How we judged each tool</h2>
+  <table class="t">
+    <tr><th style="width:26%">Source</th><th style="width:44%">Method</th><th>Key number</th></tr>
+    <tr><td><b>Ours v2 (latest versions)</b></td><td>54 sessions, 6 arms × 3 scenarios × 3 reps, hidden graders, pre-set decision rule</td><td>no tool ≥ 10% cheaper; caveman +46/+63%, combo +45%</td></tr>
+    <tr><td><b>Ours v2 Ponytail</b></td><td>6 sessions, n = 1 per scenario</td><td>+29% / +6% / −6% (inconclusive)</td></tr>
+    <tr><td><b>Ours v1</b></td><td>60 short runs + 12 long RCA sessions (all graded full)</td><td>headroom token mode +61%, rtk +7–9%</td></tr>
+    <tr><td><b>JetBrains SkillsBench</b></td><td>80–86 paired tasks, Wilcoxon / sign tests</td><td>Ponytail −10.3% · rtk +7.6% · caveman output −8.5%</td></tr>
+    <tr><td><b>Quesma Terminal-Bench</b></td><td>1,740 runs</td><td>rtk ±5% bill, Pass@1 −1–2 pt</td></tr>
+    <tr><td><b>Codepointer replay</b></td><td>500 real sessions, 614M tokens, $926</td><td>3 compressors combined −3.7%</td></tr>
+    <tr><td><b>TokenEconomizer paper</b></td><td>579 tasks, 3 agents, cache-aware cost (authors’ own)</td><td>−18.4 to −30.9%, 30/30 cells cheaper</td></tr>
+  </table>
+  <div class="foot"><span class="src">Full notes: research/data/independent_benchmarks.md · experiments/ · data/all_sessions.csv (72 rows).</span><span>A1</span></div>
+  <aside class="note">[부록 A1] 질문이 나오면 보여줄 근거 표입니다. 저희 측정 132세션(v2 54 + Ponytail 6 + v1 72)과 독립 연구 4개, 그리고 개발자 논문 1개입니다.</aside>
+</section>
+
+<!-- ============================================================ A2. DEVIN -->
+<section class="slide" data-title="Appendix: Devin">
+  <p class="eyebrow">Appendix A2 · Devin billing facts</p>
+  <h2>Why Devin saves less than Claude</h2>
+  <table class="t">
+    <tr><th style="width:24%">Topic</th><th>What we found</th></tr>
+    <tr><td><b>Contract</b></td><td>$0.40 per ACU, Opus 4.6, through 2027</td></tr>
+    <tr><td><b>Devin CLI</b></td><td>Tokens convert to ACU at per-token rates (Opus 4.6: 0.4 ACU per 1M input tokens); separate cache read/write prices</td></tr>
+    <tr><td><b>Devin cloud</b></td><td>ACU = mix of tokens, compute and VM time, so token tools move only part of it</td></tr>
+    <tr><td><b>What reaches cloud</b></td><td>AGENTS.md (≤16 KiB), skills, MCP, plugins; hooks best-effort. No API proxy, no TokenEconomizer</td></tr>
+    <tr><td><b>Native levers</b></td><td>Fast mode = 4× ACU; prompt precheck (Devin Coach); sleep timeout; per-user and per-automation ACU budgets</td></tr>
+    <tr><td><b>Cache lifetime</b></td><td>Devin uses a prompt cache; lifetime not documented (we assume 5 min)</td></tr>
+  </table>
+  <div class="foot"><span class="src">docs.devin.ai: admin/billing/usage, desktop/accounts/usage, product-guides/plugins, cli hooks.</span><span>A2</span></div>
+  <aside class="note">[부록 A2] Devin 관련 질문용입니다. 클라우드 ACU에는 VM과 컴퓨팅 비용이 섞여 있어서 토큰 도구 효과가 작습니다. 대신 fast 모드 끄기 같은 Devin 자체 설정이 더 효과적입니다.</aside>
+</section>
+
+<!-- ============================================================ A3. COACH -->
+<section class="slide" data-title="Appendix: cost-coach">
+  <p class="eyebrow">Appendix A3 · cost-coach guarantees</p>
+  <h2>Why the coach cannot add AI cost</h2>
+  <table class="t">
+    <tr><th style="width:28%">Guarantee</th><th>How it is enforced</th></tr>
+    <tr><td><b>No extra tokens</b></td><td>Hooks print nothing, so nothing enters the agent’s context (tested on every event type)</td></tr>
+    <tr><td><b>No behaviour change</b></td><td>Never blocks, never rewrites commands; any internal error exits 0 silently</td></tr>
+    <tr><td><b>No slowdown</b></td><td>~0.15 s per hook; transcript pricing and cache-expiry timers run detached in the background</td></tr>
+    <tr><td><b>No spam</b></td><td>Per-rule 10-min cooldown, 6 per hour cap, quiet hours, mute; thresholds set from real logs</td></tr>
+    <tr><td><b>Safe install</b></td><td>Original settings backed up once, invalid JSON refused, <span class="mono">--uninstall --all</span> restores byte-for-byte</td></tr>
+    <tr><td><b>Private</b></td><td>Local files only; prompt text not stored; optional Slack webhook sends summary numbers only</td></tr>
+  </table>
+  <div class="foot"><span class="src">55 automated tests · cost-coach doctor re-checks on each Mac · utils/cost-coach/DESIGN.md.</span><span>A3</span></div>
+  <aside class="note">[부록 A3] 코치가 비용을 늘리지 않느냐는 질문용입니다. hook은 아무것도 출력하지 않기 때문에 AI 컨텍스트에 아무것도 들어가지 않고, 테스트와 doctor 명령으로 확인합니다.</aside>
+</section>
+
+</div></div>
+
+<div class="chrome"><div class="bar"></div></div>
+<div class="hud" role="navigation" aria-label="Slide navigation">
+  <button id="prev" type="button" aria-label="Previous slide">←</button>
+  <span id="counter">1 / 20</span>
+  <button id="next" type="button" aria-label="Next slide">→</button>
+  <button id="notesBtn" type="button" aria-label="Toggle speaker notes">Notes (N)</button>
+</div>
+<div class="notes" id="notes" aria-live="polite"></div>
+
+<script>
+// Slide 8 chart: advertised vs measured billed-cost change (%)
+(function () {
+  const T = [
+    { t: "TokenEconomizer", ad: [-31, -18], m: [-30.9, -23.6, -18.4] },
+    { t: "Ponytail", ad: [-54, -54], m: [-10.3, -6, 6, 29] },
+    { t: "codegraph", ad: [-44, -44], m: [-16.3, 5, 7, 12, 28] },
+    { t: "caveman", ad: [-65, -65], m: [-1, -0.4, 11.6, 16, 46, 63] },
+    { t: "rtk", ad: [-90, -60], m: [-19.9, -5, -2, -0.5, 5, 7.3, 7.6, 9] },
+    { t: "headroom", ad: [-57, -21], m: [-2.8, -1, 1, 2, 59, 61] }
+  ];
+  const svg = document.getElementById("cmp");
+  const ns = "http://www.w3.org/2000/svg";
+  const W = 1440, left = 210, right = 70, top = 46, rowH = 82;
+  const x0 = -95, x1 = 70, sx = v => left + (v - x0) / (x1 - x0) * (W - left - right);
+  const el = (n, a, p) => { const e = document.createElementNS(ns, n); for (const k in a) e.setAttribute(k, a[k]); (p || svg).appendChild(e); return e; };
+  for (let v = -90; v <= 60; v += 15) {
+    el("line", { x1: sx(v), x2: sx(v), y1: top - 10, y2: top + T.length * rowH - 20, class: v === 0 ? "axis" : "grid", "stroke-width": v === 0 ? 2 : 1 });
+    const tx = el("text", { x: sx(v), y: top - 18, "text-anchor": "middle", class: "m ink3", "font-size": 14 }); tx.textContent = (v > 0 ? "+" : "") + v + "%";
+  }
+  T.forEach((d, i) => {
+    const y = top + i * rowH + 30;
+    const lb = el("text", { x: 0, y: y + 6, class: "ink", "font-size": 20, "font-weight": 650 }); lb.textContent = d.t;
+    const adv = d.ad[0] === d.ad[1] ? [d.ad[0]] : d.ad;
+    if (adv.length === 2) el("line", { x1: sx(adv[0]), x2: sx(adv[1]), y1: y - 14, y2: y - 14, stroke: "var(--ink-3)", "stroke-width": 1.5, "stroke-dasharray": "4 4" });
+    adv.forEach(v => { const X = sx(v), Y = y - 14; el("path", { d: `M${X} ${Y - 7} L${X + 7} ${Y} L${X} ${Y + 7} L${X - 7} ${Y}Z`, fill: "var(--sheet)", stroke: "var(--ink-2)", "stroke-width": 2 }); });
+    const mn = Math.min(...d.m), mx = Math.max(...d.m);
+    el("line", { x1: sx(mn), x2: sx(mx), y1: y + 12, y2: y + 12, stroke: "var(--rule)", "stroke-width": 4, "stroke-linecap": "round" });
+    d.m.forEach(v => el("circle", { cx: sx(v), cy: y + 12, r: 8, fill: v < 0 ? "var(--save)" : "var(--cost)", stroke: "var(--sheet)", "stroke-width": 2.5 }));
+    const rl = el("text", { x: sx(mx) + 16, y: y + 18, class: "m ink3", "font-size": 15 });
+    rl.textContent = mn === mx ? `${mn}%` : `${mn > 0 ? "+" : ""}${mn} to ${mx > 0 ? "+" : ""}${mx}%`;
+  });
+})();
+</script>
+<script src="assets/deck.js"></script>
+</body>
+</html>

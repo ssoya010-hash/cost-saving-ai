@@ -1,0 +1,143 @@
+{
+ "scenarios": {
+  "s1": {
+   "base": {
+    "n": 1,
+    "costs": [
+     0.10615
+    ],
+    "median": 0.10615,
+    "delta": 0.0,
+    "verdict": "\u2014",
+    "no_cache_median": 0.47846,
+    "quality": "5/5",
+    "parts": {
+     "uncached_in": 4.4e-05,
+     "cache_write": 0.052096,
+     "cache_read": 0.0209662,
+     "output": 0.03304
+    },
+    "output_tokens": 3304,
+    "cache_write_tokens": 13024,
+    "tool_result_chars": 9455,
+    "peak_context": 24232,
+    "duration_s": 355.4
+   },
+   "ponytail": {
+    "n": 1,
+    "costs": [
+     0.13696
+    ],
+    "median": 0.13696,
+    "delta": 0.2902496467263307,
+    "verdict": "COSTS MORE",
+    "no_cache_median": 0.66293,
+    "quality": "5/5",
+    "parts": {
+     "uncached_in": 5.2e-05,
+     "cache_write": 0.070544,
+     "cache_read": 0.029539300000000004,
+     "output": 0.03682
+    },
+    "output_tokens": 3682,
+    "cache_write_tokens": 17636,
+    "tool_result_chars": 13123,
+    "peak_context": 28844,
+    "duration_s": 375.2
+   }
+  },
+  "s2": {
+   "base": {
+    "n": 1,
+    "costs": [
+     0.11335
+    ],
+    "median": 0.11335,
+    "delta": 0.0,
+    "verdict": "\u2014",
+    "no_cache_median": 0.35824,
+    "quality": "5/5",
+    "parts": {
+     "uncached_in": 2.8e-05,
+     "cache_write": 0.071576,
+     "cache_read": 0.0147728,
+     "output": 0.02697
+    },
+    "output_tokens": 2697,
+    "cache_write_tokens": 17894,
+    "tool_result_chars": 20677,
+    "peak_context": 29102,
+    "duration_s": 25.7
+   },
+   "ponytail": {
+    "n": 1,
+    "costs": [
+     0.12059
+    ],
+    "median": 0.12059,
+    "delta": 0.06387295985884425,
+    "verdict": "NO EFFECT",
+    "no_cache_median": 0.3294,
+    "quality": "5/5",
+    "parts": {
+     "uncached_in": 2.4e-05,
+     "cache_write": 0.078184,
+     "cache_read": 0.0130475,
+     "output": 0.02933
+    },
+    "output_tokens": 2933,
+    "cache_write_tokens": 19546,
+    "tool_result_chars": 18777,
+    "peak_context": 30754,
+    "duration_s": 25.6
+   }
+  },
+  "s3": {
+   "base": {
+    "n": 1,
+    "costs": [
+     0.84471
+    ],
+    "median": 0.84471,
+    "delta": 0.0,
+    "verdict": "\u2014",
+    "no_cache_median": 2.65482,
+    "quality": "6/6",
+    "parts": {
+     "uncached_in": 9.2e-05,
+     "cache_write": 0.524012,
+     "cache_read": 0.1090585,
+     "output": 0.21155
+    },
+    "output_tokens": 21155,
+    "cache_write_tokens": 131003,
+    "tool_result_chars": 276657,
+    "peak_context": 142211,
+    "duration_s": 193.6
+   },
+   "ponytail": {
+    "n": 1,
+    "costs": [
+     0.79616
+    ],
+    "median": 0.79616,
+    "delta": -0.05747534656864484,
+    "verdict": "NO EFFECT",
+    "no_cache_median": 2.19706,
+    "quality": "6/6",
+    "parts": {
+     "uncached_in": 8e-05,
+     "cache_write": 0.519976,
+     "cache_read": 0.087415,
+     "output": 0.18869
+    },
+    "output_tokens": 18869,
+    "cache_write_tokens": 129994,
+    "tool_result_chars": 274106,
+    "peak_context": 141202,
+    "duration_s": 170.0
+   }
+  }
+ },
+ "invalid": 0
+}

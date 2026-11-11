@@ -1,0 +1,17 @@
+name: tests
+on: [push, pull_request]
+jobs:
+  cost-coach:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: cost-coach tests
+        working-directory: utils/cost-coach
+        env: { COACH_NO_NOTIFY: "1", COACH_NO_LAUNCHCTL: "1" }
+        run: python3 -m unittest discover -s tests -v
+  index:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: README index is up to date
+        run: python3 scripts/build_index.py --check
